@@ -1,6 +1,21 @@
 #include <stdio.h>
 #include "progol.h"
 
+int ccl_swrite();
+void c_interp();
+int g_message(long, char*, void*, void*, void*, void*, void*, void*, void*, void*, void*, void*);
+int i_delete();
+int cl_assert();
+int ccl_fwrite();
+int i_deletes(ITEM f0, ITEM f1, ITEM f2, ITEM f3, ITEM f4, ITEM f5, ITEM f6, ITEM f7, ITEM f8, ITEM f9);
+int d_error();
+int strcmp();
+int p_fwritesub();
+int cl_symreduce();
+int cl_print();
+int c_updsamp();int r_search();int cl_unflatten();int d_popfores();int c_updbsamp();int d_treduce();int c_condition();int strlen();int cl_readrls();int c_gen1();int freclose();
+
+
 /*
  * #######################################################################
  *
@@ -24,7 +39,7 @@ main_prompt()
 		c_interp(c);
 		sprintf(mess1,"%s - Time taken %.2lfs",mess,
 			fabs(cputime()-start));
-		g_message(1l,mess1);
+		g_message(1l,mess1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 		i_delete(c);
 	}
 }
@@ -33,7 +48,7 @@ extern char ttychline();
 extern PREDICATE interp();
 ITEM c_sat();
 
-c_interp(cclause)
+void c_interp(cclause)
 	ITEM cclause;
 	{
 	ITEM vtable,hyp;
@@ -61,7 +76,7 @@ c_interp(cclause)
 	  CONTRA
 	  psym=PSYM(HOF((LIST)I_GET(F_ELEM(0l,cclause))));
 	  hyp=c_sat(cclause1=i_copy(cclause),bcl_costs(*f_ins(psym,bptab)));
-	  i_deletes(cclause1,hyp,(ITEM)I_TERM);
+	  i_deletes(cclause1,hyp,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  return;
 	}
 	vtable=F_ELEM(3l,cclause);		/* Query */
@@ -128,7 +143,7 @@ c_sat(cclause,nex)
 	  outlook=r_outlook(hypothesis,head,otoa,atoio);
 	  vdomains=r_vdomains(otoa,atoio);
 	  if(verbose>=2) {
-	    g_message(2l,"Most specific clause is");
+	    g_message(2l,"Most specific clause is", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	    printf("\n");
 	    cl_print(hypothesis);
 	    printf("\n");
@@ -137,7 +152,7 @@ c_sat(cclause,nex)
 	    retract=d_pushfores(psym=PSYM(HOF((LIST)I_GET(clause))));
 	    if(r_posonly()) {
 	      g_message(2l,"Learning %s/%d from positive examples",
-		QP_ntos(psym),QP_ntoa(psym));
+		QP_ntos(psym),QP_ntoa(psym), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	      pos=TRUE;
 	      oldnoise=noiselim;
 	      noiselim=100.0;
@@ -149,7 +164,7 @@ c_sat(cclause,nex)
 	    if(hypothesis&& !L_EMPTYQ(hypothesis)) {
 	      cl_unflatten(&hypothesis);
 	      if(verbose>=1) {
-	        g_message(1l,"Result of search is");
+	        g_message(1l,"Result of search is", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 		printf("\n");
 	        cl_print(hypothesis);
 		printf("\n");
@@ -181,9 +196,9 @@ c_sat(cclause,nex)
 	    i_delete(retract);
 	  }
 	  else i_delete(hypothesis);
-	  i_deletes(outlook,vdomains,(ITEM)I_TERM);
+	  i_deletes(outlook,vdomains,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	}
-	i_deletes(atoio,otoa,head,(ITEM)I_TERM);
+	i_deletes(atoio,otoa,head,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	return(result);
 }
 
@@ -245,7 +260,7 @@ c_updbsamp(psym,call)
 	LIST_END
 	if(call) {
 	  *atom1=(ITEM)NULL;
-	  i_deletes(c1,call1,(ITEM)I_TERM);
+	  i_deletes(c1,call1,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	}
 }
 
@@ -312,7 +327,7 @@ c_doall(froot_in,froot_out)
 	      start=cputime();
 	      c_gen1(out,psym);
 	      sprintf(mess,"Time taken %.2lfs",fabs(cputime()-start));
-	      g_message(1l,mess);
+	      g_message(1l,mess, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	    }
 	    psym++;
 	  FUNC_END

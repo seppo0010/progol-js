@@ -8,6 +8,18 @@
 #include        <stdio.h>
 #include        "progol.h"
 
+int g_message(long, char*, void*, void*, void*, void*, void*, void*, void*, void*, void*, void*);
+int b_num();int cl_assert();int i_delete();int cl_psfirstarg();int ct_vmax();int d_error();int cl_vrenum();int cl_ddeclare();int ccl_fwrite();int i_fnl();int freclose();int cl_readrls();
+int i_deletes(ITEM f0, ITEM f1, ITEM f2, ITEM f3, ITEM f4, ITEM f5, ITEM f6, ITEM f7, ITEM f8, ITEM f9);
+int l_showp();
+int strcpy();int number();
+int cl_mdeclare();int cl_nvars();int cl_mdeclare();int l_modes1();int p_fwritesub();int strcmp();int strlen();int l_showw();int y_push();int y_pop();int a_pr_block_stats();int frecdelete();int d_treduce();
+int a_dfree();int cl_pfirstarg();int s_permute();int cl_writerls();int p_swrite1();int predn();int c_list1();int predn();int i_fpr();int c_chisq();int interp_quest();int ccl_print();int c_chisq();int b_lsub();int ccl_swrite();int cl_pfirstarg();
+int cl_groundq();
+int p_fwrite();
+
+
+
 struct libstruc {
 	STRING pattern;
 	LONG nargs;
@@ -62,7 +74,7 @@ l_init()
 	}
 	cl_psfirstarg(pseen);
 	b_uni(lib1,b_uni(lib2,lib));
-	i_deletes(lib2,pseen,(ITEM)I_TERM);
+	i_deletes(lib2,pseen,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 #define MAXARGS	10l
@@ -130,7 +142,7 @@ LIB(l_asserta) {
 	cl=l_pctol(arg0); cl_vrenum(cl,&vno);
 	ccl=i_tup4(cl,i_dec(I_INT(cl_vmax(cl))),idot0,i_dec(F_EMPTY));
 	result=cl_assert(ccl,FALSE,FALSE,TRUE,FALSE,NULL);
-	i_deletes(arg0,cl,ccl,(ITEM)I_TERM);
+	i_deletes(arg0,cl,ccl,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	return(result);
 }
 
@@ -141,7 +153,7 @@ LIB(l_assertz) {
 	cl=l_pctol(arg0); cl_vrenum(cl,&vno);
 	ccl=i_tup4(cl,i_dec(I_INT(cl_vmax(cl))),idot0,i_dec(F_EMPTY));
 	result=cl_assert(ccl,FALSE,TRUE,TRUE,FALSE,NULL);
-	i_deletes(arg0,cl,ccl,(ITEM)I_TERM);
+	i_deletes(arg0,cl,ccl,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	return(result);
 }
 
@@ -270,7 +282,7 @@ LIB(l_plt) {
 	namecmp=TRUE;
 	result=(i_cmp(arg0,arg1)==LT);
 	namecmp=FALSE;
-	i_deletes(arg0,arg1,(ITEM)I_TERM);
+	i_deletes(arg0,arg1,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	return(result);
 }
 
@@ -281,7 +293,7 @@ LIB(l_equiv) {
 	namecmp=TRUE;
 	result=(i_cmp(arg0,arg1)==EQ);
 	namecmp=FALSE;
-	i_deletes(arg0,arg1,(ITEM)I_TERM);
+	i_deletes(arg0,arg1,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	return(result);
 }
 
@@ -574,7 +586,7 @@ LIB(l_name) {
 	    }
 	    l_push(i_dec(subout->term),built);
 	  }
-	  i_deletes(l,arg1,(ITEM)I_TERM);
+	  i_deletes(l,arg1,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	}
 	return(result);
 }
@@ -759,8 +771,8 @@ LIB(l_set1) {
 	  if(STREQ(fname,"posonly")) {
 	    noiselim=100.0;
 	    inflate=400l;
-	    g_message(2l,"Noise has been set to 100%%");
-	    g_message(2l,"Example inflation has been set to 400%%");
+	    g_message(2l,"Noise has been set to 100%%", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	    g_message(2l,"Example inflation has been set to 400%%", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  }
 	  for(fptr=settings;fname1=fptr->setname;fptr++)
 	    if(fptr->settype==BOOLEAN && STREQ(fname,fname1)) {
@@ -976,7 +988,7 @@ LIB(l_record) {
 		(char*)(break1->env_stack->reset=(BIND*)(sub+vmax));
 	    for(cnt=0l;cnt<vmax;cnt++) (sub+cnt)->term=(ITEM)NULL;
 	    l_push(i_dec(plist),built);
-	    i_deletes(store,vnums,(ITEM)I_TERM); store=(ITEM)NULL;
+	    i_deletes(store,vnums,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL); store=(ITEM)NULL;
 	    (subout+1l)->term=plist;
 	    (subout+1l)->subst=sub;
 	    if(sstack) {
@@ -1014,7 +1026,7 @@ LIB(l_sort) {
 	    l_push(i_dec(pl1),built);
 	    result=TRUE;
 	  }
-	  i_deletes(pl0,l,(ITEM)I_TERM);
+	  i_deletes(pl0,l,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	}
 	return(result);
 }
@@ -1146,11 +1158,11 @@ LIB(l_optoggle) {
 	oldops=ops; ops=swapops;
 	oldop=op; op=swapop;
 	if(opson) {
-	  g_message(1l,"Operator definitions turned OFF");
+	  g_message(1l,"Operator definitions turned OFF", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  opson=FALSE;
 	}
 	else {
-	  g_message(1l,"Operator definitions turned ON");
+	  g_message(1l,"Operator definitions turned ON", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  opson=TRUE;
 	}
 	return(TRUE);
@@ -1164,7 +1176,7 @@ LIB(l_permute) {
 		fileI=QP_ntos((STRING)I_GET(fname));
 	else return(FALSE);
 	s_permute(fileI,s_length(fileI),fileO,0l);
-	g_message(1l,"Results in <%s>",fileO);
+	g_message(1l,"Results in <%s>",fileO, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	return(TRUE);
 }
 
@@ -1313,7 +1325,7 @@ LIB(l_advise) {
 	else return(FALSE);
 	if(STRSUFQ(name,".pl")) sprintf(file,"%s",name);
 	else sprintf(file,"%s.pl",name);
-	g_message(1,"Writing user predicates to <%s>",file);
+	g_message(1,"Writing user predicates to <%s>",file, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	return(cl_writerls(file));
 }
 
@@ -1323,7 +1335,7 @@ LIB(l_halt) {
 	char mess[MAXMESS];
 	if(arg0->item_type != 'i') {
 	  p_swrite1(mess,arg0);
-	  g_message(0l,"Bad argument <%s> for halt/1",mess);
+	  g_message(0l,"Bad argument <%s> for halt/1",mess, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  return(FALSE);
 	}
 	exit((LONG)I_GET(arg0));
@@ -1504,10 +1516,10 @@ c_gen1(out,psym)
 		ccl_swrite(mess1,clause1=i_copy(clause));
 		printf("[Generalising %s]\n",mess1);
 		hyp=c_sat(clause1,nex);
-		i_deletes(clause1,hyp,(ITEM)I_TERM);
+		i_deletes(clause1,hyp,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	    }
 	  LIST_END
-	  i_deletes(bcl1,clauses1,(ITEM)I_TERM);
+	  i_deletes(bcl1,clauses1,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  c_list1(out,psym);
 	  printf("\n");
 	}
@@ -1611,7 +1623,7 @@ LIB(l_layer) {
 			*y_ins(psym,layer)))) { /* New layer */
 		(*y_ins(psym,layer))++;
 		g_message(1l,"LAYER %d, PREDICATE %s/%d",Y_ELEM(psym,layer),
-			    QP_ntos(psym),QP_ntoa(psym));
+			    QP_ntos(psym),QP_ntoa(psym), NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  	AP= *y_ins(psym,tp); aP= *y_ins(psym,fn);
 	  	Ap= *y_ins(psym,fp); ap= *y_ins(psym,tn);
 	  	c_chisq(AP,aP,Ap,ap);
@@ -1620,7 +1632,7 @@ LIB(l_layer) {
 			Y_ELEM(psym,fp)=Y_ELEM(psym,fn)=0l;
 		b_sub(bclauses,*f_ins(psym,bptab));
 		i_deletes(*f_ins(psym,ptab),*f_ins(psym,bptab),
-			costs,(ITEM)I_TERM);
+			costs,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	        *f_ins(psym,ptab)= l_copy(*f_ins(psym,olddef));
 	        *f_ins(psym,bptab)= b_copy(*f_ins(psym,oldbdef));
 		costs=y_copy(costs1); b_uni(bclauses,*f_ins(psym,oldbdef));
@@ -1642,7 +1654,7 @@ LIB(l_layer) {
 		else c_gen1(ttyout,psym);
 		sprintf(mess1,"%s - Time taken %.2lfs, Cum. time %.2fs",mess,
 			fabs(cputime()-start), fabs(cputime()-start0));
-		g_message(1l,mess1);
+		g_message(1l,mess1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	      }
 	    }
 	    else if(CTYPE(ccl)==(POINTER)pquest) {	/* Headless clause */
@@ -1651,7 +1663,7 @@ LIB(l_layer) {
 		ccl_swrite(mess,ccl);
 		sprintf(mess1,"%s - Time taken %.2lfs",mess,
 			fabs(cputime()-start));
-		g_message(1l,mess1);
+		g_message(1l,mess1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 		l_push(ccl,comms);
 	    }
 	    else {
@@ -1667,8 +1679,8 @@ LIB(l_layer) {
 	  c_chisq(AP,aP,Ap,ap);
 	  printf("TRAIN/TEST = %d/%d\n",*y_ins(psym,train),*y_ins(psym,test));
 	BIT_END
-	i_deletes(tp,tn,fp,fn,olddef,oldbdef,exs,(ITEM)I_TERM);
-	i_deletes(costs1,layer,pseen,pseen1,train,test,(ITEM)I_TERM);
+	i_deletes(tp,tn,fp,fn,olddef,oldbdef,exs,(ITEM)I_TERM, NULL, NULL);
+	i_deletes(costs1,layer,pseen,pseen1,train,test,(ITEM)I_TERM, NULL, NULL, NULL);
 	freclose(in);
 	reconsult=recon; mseen=ms;
 	if(oldsearchq) SET(searching);
@@ -1748,14 +1760,14 @@ LIB(l_leave) {
 	  	  printf("[Partial accuracy= %.f/%.f]\n",RIGHT,N);
 	      }
 	      i_deletes(bred,F_ELEM(psym,ptab),F_ELEM(psym,bptab),
-		bclauses,(ITEM)I_TERM);
+		bclauses,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL);
 	      F_ELEM(psym,ptab)=cls1=l_copy(cls);
 	      F_ELEM(psym,bptab)=b_copy(bpcls);
 	      bclauses=b_copy(bcls);
 	      cl_pfirstarg(psym);
 	      i_delete(costs); costs=i_copy(costs1);
 	  BIT_END
-	  i_deletes(bpcls,cls,bcls,(ITEM)I_TERM);
+	  i_deletes(bpcls,cls,bcls,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 
 	  printf("[TESTING NEGATIVES]\n");
 	  if((psym!=pfalse0) && (bnegs= *f_ins(pfalse0,bptab))) {
@@ -1779,7 +1791,7 @@ LIB(l_leave) {
 	  	    printf("[Partial accuracy= %.f/%.f]\n",RIGHT,N);
 	          }
 	          i_deletes(F_ELEM(psym,ptab),F_ELEM(psym,bptab),
-			  bclauses,(ITEM)I_TERM);
+			  bclauses,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	          F_ELEM(psym,ptab)=cls1=l_copy(cls);
 	          F_ELEM(psym,bptab)=b_copy(bpcls);
 	          bclauses=b_copy(bcls);
@@ -1787,7 +1799,7 @@ LIB(l_leave) {
 	          i_delete(costs); costs=i_copy(costs1);
 		}
 	    BIT_END
-	    i_deletes(bpcls,cls,bcls,(ITEM)I_TERM);
+	    i_deletes(bpcls,cls,bcls,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	  }
 	  c_chisq(AP,aP,Ap,ap);
 	  result=TRUE;
@@ -1833,7 +1845,7 @@ LIB(l_aleave) {
 	        b_rem(cno,F_ELEM(psym,bptab)); b_rem(cno,bclauses);
 	        b_lsub(F_ELEM(psym,ptab),one=b_add(cno,B_EMPTY));
 	      }
-	      if(hyp=c_sat(cclause1,	
+	      if(hyp=c_sat(cclause1,
 			bcl_costs(*f_ins(psym,bptab)))) {
 	        AP+=fcost;		/* Add up and reset state */
 		printf("[Right: %s]\n",mess1);
@@ -1846,7 +1858,7 @@ LIB(l_aleave) {
 	  	  printf("[Partial accuracy= %.f/%.f]\n",RIGHT,N);
 	      }
 	      i_deletes(F_ELEM(psym,ptab),F_ELEM(psym,bptab),
-		bclauses,cclause1,one,costs,(ITEM)I_TERM);
+		bclauses,cclause1,one,costs,(ITEM)I_TERM, NULL, NULL, NULL);
 	      F_ELEM(psym,ptab)=l_copy(cls);
 	      F_ELEM(psym,bptab)=b_copy(bpcls);
 	      bclauses=b_copy(bcls);
@@ -1875,7 +1887,7 @@ LIB(l_aleave) {
 	  	    printf("[Partial accuracy= %.f/%.f]\n",RIGHT,N);
 		  }
 		  *atom=(ITEM)NULL;
-		  i_deletes(hyp,c1,call,(ITEM)I_TERM);
+		  i_deletes(hyp,c1,call,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	        }
 	        if(right) {
 	          ap+=fcost;			/* Add up and reset state */
@@ -1883,7 +1895,7 @@ LIB(l_aleave) {
 	  	  printf("[Partial accuracy= %.f/%.f]\n",RIGHT,N);
 	        }
 	        i_deletes(F_ELEM(psym,ptab),F_ELEM(psym,bptab),
-		  bclauses,costs,(ITEM)I_TERM);
+		  bclauses,costs,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL);
 	        F_ELEM(psym,ptab)=l_copy(cls);
 	        F_ELEM(psym,bptab)=b_copy(bpcls);
 	        bclauses=b_copy(bcls);
@@ -1896,14 +1908,14 @@ LIB(l_aleave) {
 
 	  c_chisq(AP,aP,Ap,ap);
 	  result=TRUE;
-	  i_deletes(cls,bpcls,(ITEM)I_TERM);
+	  i_deletes(cls,bpcls,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	}
 	else printf("[Predicate %s/%d not defined]\n",QP_ntos(psym),
 		QP_ntoa(psym));
 	/* Count up and return result */
 	if(oldsearchq) SET(searching);
 	else UNSET(searching);
-	i_deletes(bcls,costs1,(ITEM)I_TERM);
+	i_deletes(bcls,costs1,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	return(result);
 }
 
@@ -2047,7 +2059,7 @@ LIB(l_arg) {
 LIB(l_float) {
 	register PREDICATE result=FALSE;
 	register ITEM arg,ans;
-	double frac; 
+	double frac;
 	if(callno&& !generate) result=FALSE;
 	else if((arg=args[0])->item_type=='r')
 	  if(callno) result=FALSE;
@@ -2155,7 +2167,7 @@ LIB(l_univ) {
 	        result=TRUE;
 	      }
 	    }
-	    i_deletes(l,(ITEM)I_TERM);
+	    i_deletes(l,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  }
 	}
 	else if(type0=='f') {
@@ -2218,7 +2230,7 @@ LIB(l_test1) {
 	    c_chisq(AP,aP,Ap,ap);
 	  BIT_END
 	}
-	i_deletes(pseen,tp,tn,fp,fn,(ITEM)I_TERM);
+	i_deletes(pseen,tp,tn,fp,fn,(ITEM)I_TERM, NULL, NULL, NULL, NULL);
 	return(TRUE);
 }
 
@@ -2248,14 +2260,14 @@ LIB(l_test2) {
 		  l_push(i_dec(I_INT(Ap)),
 		  l_push(i_dec(I_INT(ap)),L_EMPTY)))));
 	    l_suf(i_dec(l_ltop(clist0)),clist1);
-	    i_deletes(pa,clist0,(ITEM)I_TERM);
+	    i_deletes(pa,clist0,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  BIT_END
 	  (subout+1l)->term=l_ltop(clist1);
 	  (subout+1l)->subst=(BIND)NULL;
 	  l_push(i_dec((subout+1l)->term),built);
 	  i_delete(clist1);
 	}
-	i_deletes(pseen,tp,tn,fp,fn,(ITEM)I_TERM);
+	i_deletes(pseen,tp,tn,fp,fn,(ITEM)I_TERM, NULL, NULL, NULL, NULL);
 	return(TRUE);
 }
 
@@ -2648,7 +2660,7 @@ c_fraction(i)
 	LONG i;
 	{
 	LONG val;
-	double frac,res; 
+	double frac,res;
 	for(res=0.0,frac=0.5,val=i;val;frac/=2.0,val>>=1l)
 	    if(val&1l) res+=frac;
 	return(res);

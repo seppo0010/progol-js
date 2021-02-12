@@ -8,6 +8,16 @@
 #include        <stdio.h>
 #include        "progol.h"
 
+unsigned long strlen(const char *);
+int p_swrite();
+int d_error();
+int p_lwrite();
+int i_delete();
+int i_deletes(ITEM f0, ITEM f1, ITEM f2, ITEM f3, ITEM f4, ITEM f5, ITEM f6, ITEM f7, ITEM f8, ITEM f9);
+int lsymbol();int frecflush();
+int strcmp(const char *, const char *);
+
+
 /*
  * p_vname - creates new variable names from numbers. Conversion is
  *	0,1,..,25,26,27,...   becomes
@@ -250,7 +260,7 @@ p_swrite1(s,i)
 	i_delete(vtable);
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * p_read/5 - reads any Prolog term
  */
@@ -356,7 +366,7 @@ p_read(get1ch,unget1ch,vtable,toplevel,terminator,expect,varno)
 			    case ';': case '!':
 			    case '+': case '-': case '*': case '/': case '\\': case '^':
 			    case '<': case '>': case '=': case '`': case '~': case ':':
-			    case '.': case '?': case '@': case '#': case '$': case '&': 
+			    case '.': case '?': case '@': case '#': case '$': case '&':
 				symbol_atom=TRUE;
 			    case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
 			    case 'g': case 'h': case 'i': case 'j': case 'k': case 'l':
@@ -673,7 +683,7 @@ p_ttyread()
 	return(result);
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * exp_read/2 - reads any Prolog expression and maintains a single term lookahead
  *	by reading terms, and updating the variables tpres and tnext.
@@ -707,12 +717,12 @@ exp_read(get1ch,unget1ch,vtable,toplevel,terminator,varno)
 	      if(exp_collapse(optrs,opnds,INF,"xfx")&&(l_length(opnds)==1l))
 		      result=l_pop(opnds);
 	      else result=tpres;
-	      i_deletes(optrs,opnds,(ITEM)I_TERM);
+	      i_deletes(optrs,opnds,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  }
 	  else if((expect=exp_update(tpres,tnext,expect,optrs,opnds))==
 		(LONG)I_ERROR) {
 	      if(tnext!=(ITEM)I_ERROR && tnext!=(ITEM)I_TERM) i_delete(tnext);
-	      i_deletes(tpres,optrs,opnds,(ITEM)I_TERM);
+	      i_deletes(tpres,optrs,opnds,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	      result=(ITEM)I_ERROR;
 	  }
 	  else i_delete(tpres);
@@ -930,13 +940,13 @@ exp_collapse(optrs,opnds,prec,assoc)
 	    terml=L_EMPTY;
 	    for(cnt=1l;cnt<=arity;cnt++)
 		if(L_EMPTYQ(opnds)) {
-		    i_deletes(op,terml,(ITEM)I_TERM);
+		    i_deletes(op,terml,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 		    return(FALSE);
 		}
 		else l_push(i_dec(l_pop(opnds)),terml);
 	    function=i_create('h',QP_ston(QP_ntos((LONG)I_GET(op)),arity));
 	    l_push(i_dec(f_ltof(l_push(function,terml))),opnds);
-	    i_deletes(op,terml,function,(ITEM)I_TERM);
+	    i_deletes(op,terml,function,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	}
 	return(TRUE);
 }

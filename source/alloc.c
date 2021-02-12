@@ -1,3 +1,6 @@
+int d_error();
+void bzero(void *, unsigned long);
+
 #include 	<stdio.h>
 #include        "progol.h"
 /*

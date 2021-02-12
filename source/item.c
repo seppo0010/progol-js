@@ -1,3 +1,9 @@
+int d_error();
+int strcmp();int i_delete();int b_delete();int y_delete();int R_delete();int a_dfree();int strlen();int f_delete();
+int frecflush();int frecdelete();
+
+
+
 #include <stdio.h>
 #include "progol.h"
 
@@ -14,7 +20,7 @@
 ITEM all_items;
 #endif
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * i_copy/1 - recursively produces a copy of an item.
  */
@@ -73,7 +79,7 @@ i_copy(i)
 	return(result);
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * i_cmp/2 - recursively compares two items and says whether the first
  *	is greater than (GT) equal to (EQ) or less than (LT) the second
@@ -225,7 +231,7 @@ i_cmp(i1,i2)
 	return(result);
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * i_inc/1 - increments the usage counter of the item and returns the item
  */
@@ -238,7 +244,7 @@ i_inc(item)
 	else item->usage++;
 	return(item);
 }
-/* ####################################################################### 
+/* #######################################################################
  *
  * i_dec/1 - decrements the usage counter of the item and returns the item
  */
@@ -257,7 +263,7 @@ i_dec(item)
 #define ADDR	1
 
 ITEM
-i_create(itype,val) 
+i_create(itype,val)
 	char itype;
 	POINTER val;
 	{
@@ -304,7 +310,7 @@ i_print_all()
 	register ITEM *felem;
 	FUNC f= (FUNC)I_GET(all_items);
 	LIST elem;
-	
+
 	printf("All items:\n");
 	FUNC_LOOP(felem,f) {
 	    if (*felem) {
@@ -355,9 +361,9 @@ i_delete(i)
 #ifdef MEMCHECK
 	LIST *hlast;
 #endif
-	if (i == (ITEM)NULL)	return;
+	if (i == (ITEM)NULL)	return 0;
 	else if (!(i->usage)) d_error("i_delete - deleting item with no usage");
-	else if (--(i->usage) != 0)	return;
+	else if (--(i->usage) != 0)	return 0;
 	else {
 #ifdef MEMCHECK
 	    if (*(hlast=h_gen(i,all_items,ADDR))) {
@@ -407,7 +413,7 @@ i_delete(i)
 	}
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * i_write/3 - writes any item using the generic function put1ch for
  *	writing individual characters. used both for writing to strings
@@ -431,7 +437,7 @@ i_write(i,put1ch,qextra)
 	FUNC f;
 	BLOCK b,bp,bf;
 
-	if (!i) {(*put1ch) ('_'); return;}
+	if (!i) {(*put1ch) ('_'); return 0;}
 	else if (i->usage == 0) d_error("i_fwrite - item with zero usage");
 	else {
 	    switch(i->item_type) {
@@ -533,9 +539,9 @@ i_write(i,put1ch,qextra)
 	}
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
- * put1tstring/1 prints the next character to the global string pointer 
+ * put1tstring/1 prints the next character to the global string pointer
  *	it is used by i_write when printing to strings (as opposed to a file).
  */
 
@@ -559,9 +565,9 @@ i_swrite(s,i)
 
 FILEREC *glob_file;
 
-/* ####################################################################### 
+/* #######################################################################
  *
- * put1tfile/1 prints the next character to the global output file pointer 
+ * put1tfile/1 prints the next character to the global output file pointer
  *	it is used by i_write when printing file output (as opposed to strings).
  */
 
@@ -572,7 +578,7 @@ put1tfile1(c)
 	register char c;
 	{
 	*(glob_file->bufp)++ = c;
-	if (glob_file->bufp < ((glob_file->buf+LBUF) + BUFSIZE)) return;
+	if (glob_file->bufp < ((glob_file->buf+LBUF) + BUFSIZE)) return 0;
 	else frecflush(glob_file);
 }
 
@@ -609,7 +615,7 @@ put1tfile(c)
 			put1tfile1('\t');
 			line_cnt=8;
 			reset=TRUE;
-			return;
+			return 0;
 		}
 		break;
 	    default:
@@ -685,9 +691,9 @@ i_fpr(out,s)
 	frecflush(glob_file);
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
- * get1fstring/0 gets the next character from the global string buffer 
+ * get1fstring/0 gets the next character from the global string buffer
  *	it is used by i_read when parsing strings (as opposed to a file).
  */
 
@@ -704,9 +710,9 @@ unget1fstring(c)
 	glob_str--;
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
- * get1ffile/0 gets the next character from the global input file pointer 
+ * get1ffile/0 gets the next character from the global input file pointer
  *	it is used by i_read when parsing file input (as opposed to strings).
  */
 

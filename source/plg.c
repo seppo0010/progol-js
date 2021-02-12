@@ -10,6 +10,8 @@
  *	to contain Quintus Prolog interface.
  */
 
+int b_num();
+int i_delete();
 #include <stdio.h>
 #include "progol.h"
 

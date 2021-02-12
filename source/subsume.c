@@ -1,5 +1,8 @@
+int ccl_swrite();
+int ct_vmax();int i_delete();int y_pop();int y_push();
 #include <stdio.h>
 #include "progol.h"
+int i_deletes(ITEM f0, ITEM f1, ITEM f2, ITEM f3, ITEM f4, ITEM f5, ITEM f6, ITEM f7, ITEM f8, ITEM f9);
 
 /*
  * #######################################################################

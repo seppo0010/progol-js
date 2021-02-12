@@ -238,7 +238,7 @@ extern double mydrand48();
 				 if(++Y_TOP(zas)<F_SIZE((ITEM)Y_TOP(zts))){ \
 				 Y_PUSH(F_ELEM(Y_TOP(zas),((ITEM)Y_TOP(zts))),zts); \
 				 znew=TRUE;}else{Y_POP(zts);Y_POP(zas);}}}\
-				 i_deletes(zts,zas,(ITEM)I_TERM);}
+				 i_deletes(zts,zas,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);}
 #define		TERMP_DO(ep,tp)	{register ITEM zts=Y_EMPTY,zas=Y_EMPTY;\
 				 PREDICATE znew=TRUE;Y_PUSH((LONG)(tp),zts);\
 				 while(!Y_EMPTYQ(zts)){if(znew){\
@@ -250,7 +250,7 @@ extern double mydrand48();
 				 Y_PUSH(&F_ELEM(Y_TOP(zas),\
 				 (*(ITEM *)Y_TOP(zts))),zts);\
 				 znew=TRUE;}else{Y_POP(zts);Y_POP(zas);}}}\
-				 i_deletes(zts,zas,(ITEM)I_TERM);}
+				 i_deletes(zts,zas,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);}
 #define		PLIST_DO(e,zl,l) {for(zl=(l);\
 			zl->item_type=='f'&&PSYM(zl)==pdot2;\
 			zl=F_ELEM(2l,zl)){(e)=F_ELEM(1l,zl);

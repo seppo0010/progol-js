@@ -5,8 +5,12 @@
 
 /* ####################################################################### */
 
+int a_dfree();int b_delete();int b_sample1();int ccl_fwrite();int d_error();int s_appfile();int s_delfile();int s_kpermute();int s_randsplit();
+int freclose();
+int i_delete();int i_fnl();
 #include        <stdio.h>
 #include	"progol.h"
+int g_message(long, char*, void*, void*, void*, void*, void*, void*, void*, void*, void*, void*);
 
 
 /*
@@ -131,7 +135,7 @@ ot_create(v,nl)
 ot_delete(o)
 	struct otree *o;
 	{
-	if(!o) return;
+	if(!o) return 0;
 	ot_delete(o->left);
 	ot_delete(o->right);
 	PROGOL_CFREE(o,sizeof(struct otree));
@@ -365,7 +369,7 @@ b_sample1(tree,b,bsum,result)
 /* normal(x,mu,sg) - gives the tail of the normal distribution
  *	with mean mu and std. dvn. sg. Calculation is done using
  *	the following Taylor series for mu=0, sg=1.
- *	
+ *
  *	Integral_0^x p(x)dx = Sum_(i=0)^(inf)((-1^i)x^(2i+1)/((2i+1)i!(2^i)))
  *						sqrt(2 PI)
  */
@@ -436,11 +440,11 @@ s_permute(fileI,len,fileO,depth)
 	if(len<=1l) {
 	  sprintf(command,"cp %s %s",fileI,fileO);
 	  system(command);
-	  return;
+	  return 0;
 	}
-	if(len<=INMEM) {s_kpermute(fileI,len,fileO,depth+1l); return;}
+	if(len<=INMEM) {s_kpermute(fileI,len,fileO,depth+1l); return 0;}
 	for(cnt=depth;cnt>0l;cnt--) printf(" ");
-	g_message(1l,"Permute %s (%d)",fileI,len);
+	g_message(1l,"Permute %s (%d)",fileI,len, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	s_randsplit(fileI,file0I,file1I,len0,len);
 	s_permute(file0I,len0,file0O,depth+1l); s_delfile(file0I);
 	s_permute(file1I,len-len0,file1O,depth+1l); s_delfile(file1I);
@@ -458,7 +462,7 @@ s_randsplit(file,file0,file1,len0,len)
 	char mess[MAXMESS],mess1[MAXMESS];
 	if (!(f=frecopen(file,"r"))) {
 		printf("[Cannot find %s]\n",file);
-		return;
+		return 0;
 	}
 	sprintf(file0,"%s0",file); sprintf(file1,"%s1",file);
 	f0=frecopen(file0,"w"); f1=frecopen(file1,"w");
@@ -502,9 +506,9 @@ s_length(file)
 	char mess[MAXMESS],mess1[MAXMESS];
 	if (!(f=frecopen(file,"r"))) {
 		printf("[Cannot find %s]\n",file);
-		return;
+		return 0;
 	}
-	g_message(1l,"Counting clauses in <%s>",file);
+	g_message(1l,"Counting clauses in <%s>",file, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	while((i=ccl_fread(f))!=(ITEM)I_TERM) {
 	    if(i==(ITEM)I_ERROR) continue;
 	    else res++;
@@ -528,11 +532,11 @@ s_kpermute(file,len,fileO,depth)
 	DOUBLE dlen,dcnt,dr;
 	if (!(f=frecopen(file,"r"))) {
 		printf("[Cannot find %s]\n",file);
-		return;
+		return 0;
 	}
 	/* Read clauses into array */
 	for(cnt=depth;cnt>0l;cnt--) printf(" ");
-	g_message(1l,"IN MEMORY permute %s (%d)",file,len);
+	g_message(1l,"IN MEMORY permute %s (%d)",file,len, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	cnt=0l;
 	while((i=ccl_fread(f))!=(ITEM)I_TERM) {
 	    if(i==(ITEM)I_ERROR) continue;

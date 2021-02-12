@@ -1,0 +1,4 @@
+*.o
+*.{wasm,js,data}
+progol.js
+progol.wasm

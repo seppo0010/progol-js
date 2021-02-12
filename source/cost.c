@@ -7,6 +7,9 @@
 
 #include        <stdio.h>
 #include        "progol.h"
+int y_push();
+int y_pop();
+int i_deletes(ITEM f0, ITEM f1, ITEM f2, ITEM f3, ITEM f4, ITEM f5, ITEM f6, ITEM f7, ITEM f8, ITEM f9);
 
 /***************************************************************************
  * ct_cost/1 - gives the cost of a term calculated as follows

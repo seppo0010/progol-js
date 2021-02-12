@@ -8,6 +8,8 @@
 #include        <stdio.h>
 #include        "progol.h"
 
+int d_error();
+int i_delete();int a_dfree();
 
 /*
  * A hash table is a functor of lists
@@ -39,12 +41,12 @@ h_create(size)
 	{
 	FUNC f;
 	register ITEM result=i_create('f',f=f_create(1l<<size)),*fptr;
-	
-	FUNC_LOOP(fptr,f) *fptr=(ITEM)NULL; 
+
+	FUNC_LOOP(fptr,f) *fptr=(ITEM)NULL;
 	return(result);
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * h_hash/2 - generalised hashing function
  */

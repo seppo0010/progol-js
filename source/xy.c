@@ -5,6 +5,8 @@
 
 /* ####################################################################### */
 
+int a_dfree();
+int d_error();int y_push();
 #include        <stdio.h>
 #include        "progol.h"
 

@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include "progol.h"
 
+int d_error();
+int a_dfree();
+
 /*
  * #######################################################################
  *
@@ -49,7 +52,7 @@ f_delete(f)
 	PROGOL_CFREE(f,sizeof(struct functor));
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * f_ltof/1 - places all the items in a list into a functor
  */
@@ -62,12 +65,12 @@ f_ltof(i)
 	ITEM result=i_create('f',(POINTER)f);
 	register ITEM *arrp=f->arr;
 	register LIST elem;
-	
+
 	LIST_LOOP(elem,(LIST)I_GET(i)) *arrp++ = i_inc(L_GET(elem));
 	return(result);
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * f_ftol/1 - places all the items in a functor into a list
  */

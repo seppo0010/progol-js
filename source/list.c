@@ -1,3 +1,5 @@
+int d_error(); int a_dfree(); int i_delete();
+
 #include <stdio.h>
 #include "progol.h"
 
@@ -10,7 +12,7 @@
  * #######################################################################
  */
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * Add element to end of list. No search
  *	to the end of list necessary.
@@ -31,7 +33,7 @@ l_end(val, last)
 	return(&(new_mem->next));
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * l_push/2 - push object onto list-based stack.
  *	Usage counter of object unchanged.
@@ -39,10 +41,10 @@ l_end(val, last)
 
 ITEM
 l_push(val,i)
-        ITEM val; 
+        ITEM val;
         ITEM i;
         {
-	LIST list;        
+	LIST list;
 	LIST new_mem;
 	if (i->item_type != 'l')
 		d_error("l_push - item not a list");
@@ -57,7 +59,7 @@ l_push(val,i)
 	return(i);
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * l_pop/ - pops the first object off a list-based stack. Usage counter of
  *		object unchanged.
@@ -81,7 +83,7 @@ l_pop(l)
 	return(result);
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * l_append/2 - destructively appends 2 lists to each other. The first list
  *	is overwritten and returned. The second list is unaffected.
@@ -119,7 +121,7 @@ l_length(list)
 	return(result);
 }
 
-/* ####################################################################### 
+/* #######################################################################
  *
  * l_reverse/1 - destructive list reverse
  */

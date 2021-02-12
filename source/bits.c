@@ -5,6 +5,8 @@
 
 /* ####################################################################### */
 
+int a_dfree();;int ar_enlarge();;int d_error();;int f_enlarge();;int i_delete();;int Rar_enlarge();;int y_delete();;int y_enlarge();;
+
 #include        <stdio.h>
 #include        "progol.h"
 
@@ -582,7 +584,7 @@ b_memq(n,bs)
 
 #define	ALLONES	0xFFFFFFFF
 
-ITEM 
+ITEM
 b_allones(size)
 	register LONG size;
 	{

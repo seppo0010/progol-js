@@ -8,6 +8,14 @@
 #include        <stdio.h>
 #include        "progol.h"
 
+int ccl_fwrite();
+int ccl_swrite();int cl_assatoms();int cl_leprop();int cl_psfirstarg();int cl_vrenum();int ct_smkatoms();int ct_type1();int i_delete();int interp();int y_push();
+int g_message(long, char*, void*, void*, void*, void*, void*, void*, void*, void*, void*, void*);
+int i_deletes(ITEM f0, ITEM f1, ITEM f2, ITEM f3, ITEM f4, ITEM f5, ITEM f6, ITEM f7, ITEM f8, ITEM f9);
+int b_num();int ct_nins();int ct_smkatom();int ct_smkatoms1();int y_pop();
+int cl_leprop1();int cl_pfirstarg();int d_error();
+
+
 
 /* ct_sat, Constructs saturated clause by calling interpreter to construct
  *	individual atoms.
@@ -49,7 +57,7 @@ ct_sat(cclause,atoio,otoa,head)
 	  printf("[No mode declaration for example ");
 	  ccl_fwrite(ttyout,cclause,NULL); printf("]\n");
 	  i_deletes(retract,body,htab,termtypes,pseen,nums,
-		oldterms,(ITEM)I_TERM);
+		oldterms,(ITEM)I_TERM, NULL, NULL);
 	  return((ITEM)NULL);
 	}
 	ct_type1(terms,termtypes);
@@ -67,7 +75,7 @@ ct_sat(cclause,atoio,otoa,head)
 	  ct_type1(newterms,termtypes);
 	  i_delete(oldterms); oldterms=l_copy(terms);
 	  set_uni(terms,newterms);
-	  i_deletes(newatoms,newterms,(ITEM)I_TERM);
+	  i_deletes(newatoms,newterms,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	}
 	l_push(*head,body);
 	l_push(i_dec(atom),clause);
@@ -83,10 +91,10 @@ ct_sat(cclause,atoio,otoa,head)
 	d_creduce(cclause1,FALSE);
 	if(ldiff=(len-l_length(body))) {
 	  printf("%s\n",mess);
-	  g_message(2l,"Most-specific clause reduced by %d literals",ldiff);
+	  g_message(2l,"Most-specific clause reduced by %d literals",ldiff, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	}
-	i_deletes(bodyatoms,htab,termtypes,retract,(ITEM)I_TERM);
-	i_deletes(cclause1,terms,detms,pseen,nums,oldterms,(ITEM)I_TERM);
+	i_deletes(bodyatoms,htab,termtypes,retract,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL);
+	i_deletes(cclause1,terms,detms,pseen,nums,oldterms,(ITEM)I_TERM, NULL, NULL, NULL);
 	return(body);
 }
 
@@ -115,7 +123,7 @@ ct_type1(terms,termtypes)
 	  LIST_END
 	  i_sort(*entry);
 	BIT_END
-	i_deletes(args,atom,clause,call,(ITEM)I_TERM);
+	i_deletes(args,atom,clause,call,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL);
 }
 
 /* ct_tsubs - extracts all subterms from the clause head. These are
@@ -144,7 +152,7 @@ ct_tsubs(atom,htab,head,vno,maxct,modes)
 	    call=i_tup2(i_dec(l_push(NULL,l_push(eatom,L_EMPTY))),
 		  F_ELEM(1l,call1));
 	    found=interp(call,TRUE,FALSE);
-	    i_deletes(eatom,call,(ITEM)I_TERM);
+	    i_deletes(eatom,call,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	    if(found) { /* Match found */
 	      interp((ITEM)NULL,TRUE,FALSE); /* Reset interpreter */
 	      terms=L_EMPTY;
@@ -191,7 +199,7 @@ ct_smkatoms(detms,termtypes,htab,atoms,terms,vno,ano,atoio,otoa,maxct,head,
 		ct_nins(iolist));
 	    LIST_END
 	BIT_END
-	i_deletes(ins,outs,consts,(ITEM)I_TERM);
+	i_deletes(ins,outs,consts,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 ct_smkatoms1(call,iolist,det,n,m,ins,outs,consts,termtypes,htab,newatoms,
@@ -218,7 +226,7 @@ ct_smkatoms1(call,iolist,det,n,m,ins,outs,consts,termtypes,htab,newatoms,
 	    if(!ct_call(call,det,ins,(ITEM)NULL,outs,&otermss)) {
 	      l_reverse(ins);
 	      i_delete(otermss);
-	      return;
+	      return 0;
 	    }
 	  }
 	  LIST_DO(oterms,otermss)
@@ -605,7 +613,7 @@ cl_retatoms(retract)
 	  psym++;
 	  thisone=FALSE;
 	Y_END
-	i_deletes(catoms,cle,clt,(ITEM)I_TERM);
+	i_deletes(catoms,cle,clt,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	catoms=cle=clt=(ITEM)NULL;
 }
 
@@ -625,7 +633,7 @@ cl_leprop(cno,nums)
 	ITEM *entry,*blt,ble1,*ble,*tle,*tlt;
 	LONG n;
 	tle=f_ins(cno,cle); tlt=f_ins(cno,clt);
-	if(!(*tle)&& !(*tlt)) return;
+	if(!(*tle)&& !(*tlt)) return 0;
 	if(!(*tle)) *tle=F_EMPTY;
 	if(!(*tlt)) *tlt=F_EMPTY;
 	if(!L_EMPTYQ(nums)) {
@@ -654,8 +662,8 @@ cl_leprop1(tl)
 	{
 	ITEM *bl,bl1,bnew,bl2;
 	register LONG m;
-	if(!tl) return;
-	FUNC_DO(bl,tl) /* For each object construct closure */ 
+	if(!tl) return 0;
+	FUNC_DO(bl,tl) /* For each object construct closure */
 	  if(*bl) {
 	    bnew=b_copy(*bl); bl1=B_EMPTY;
 	    while(!b_emptyq(bnew)) {
@@ -665,7 +673,7 @@ cl_leprop1(tl)
 	      b_sub(b_uni(bnew,bl1),*bl);
 	      b_uni(*bl,bl1);
 	    }
-	    i_deletes(bnew,bl1,(ITEM)I_TERM);
+	    i_deletes(bnew,bl1,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  }
 	BIT_END
 }

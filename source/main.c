@@ -5,6 +5,14 @@
 
 /* ####################################################################### */
 
+int c_open();
+int checkargs();
+int l_init();
+int main_prompt();
+int c_close();
+int d_error();
+int pcmp();
+int strcmp(const char *, const char *) ;
 #include <stdio.h>
 #include "progol.h"
 
@@ -16,7 +24,7 @@ PREDICATE c_doall();
 
 #ifdef SUNCHECK
 main(argc,argv,envp)
-	LONG argc;
+	int argc;
 	STRING argv[],envp[];
 	{
 	printf("CProgol Version 4.4\n\n");

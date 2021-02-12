@@ -5,8 +5,12 @@
 
 /* ####################################################################### */
 
+int cl_fwrite();
+int i_delete();int i_fnl();int p_fwritesub();
 #include        <stdio.h>
 #include        "progol.h"
+int i_deletes(ITEM f0, ITEM f1, ITEM f2, ITEM f3, ITEM f4, ITEM f5, ITEM f6, ITEM f7, ITEM f8, ITEM f9);
+int g_message(long, char*, void*, void*, void*, void*, void*, void*, void*, void*, void*, void*);
 
 #define CALL	0l
 #define DONE	1l
@@ -30,7 +34,7 @@ LONG rchoose();
  *	subsequent calls look for additional solutions
  *	quits with FALSE when no more solutions exist, then ready for new query
  *	if `clause_in'==NULL, then it resets the interpreter and quits
- *	
+ *
  */
 
 PREDICATE
@@ -74,7 +78,7 @@ interp(clause_in,clearstack,gen)
 #define SUCCEEDS	{/* showstack(env_stack,env_stack0); */ \
 			save_env=env_stack; reinterp=TRUE; \
 			return(TRUE); }
-#define FAILS		{i_deletes(clause,built_terms,(ITEM)I_TERM); \
+#define FAILS		{i_deletes(clause,built_terms,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL); \
 			reinterp=FALSE; save_env=(CALL_ENV)NULL; \
 			pdebug=FALSE; return(FALSE);}
 #define CHECK_I_STACKS  if((char*)env_stack <= (char*)term_stack) { \
@@ -116,7 +120,7 @@ interp(clause_in,clearstack,gen)
 	     *	parent contains details of next goal, setup new environment
 	     */
 	    if(nres++ >= rbound) {
-	      g_message(1l,"WARNING: resolution-bound failure - use set(r,..)");
+	      g_message(1l,"WARNING: resolution-bound failure - use set(r,..)", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	      FAILS
 	    }
 	    env_stack--;
@@ -129,7 +133,7 @@ interp(clause_in,clearstack,gen)
 	    I_DEBUG(CALL,env_stack);
 	    retrying=FALSE;
 	    /*
-	     *   fetch list of matching clauses 
+	     *   fetch list of matching clauses
 	     */
 	    sub=env_stack->parent->subst;
 	    if ((goal=HOF(env_stack->atom))->item_type== 'v') { /* Var call */
@@ -147,7 +151,7 @@ interp(clause_in,clearstack,gen)
 	    else {
 	      if((root_env-env_stack) > dbound && !dfailed) {
 		dfailed=TRUE;
-	        g_message(1l,"WARNING: depth-bound failure - use set(h,..)");
+	        g_message(1l,"WARNING: depth-bound failure - use set(h,..)", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	      }
 	      env_stack->next_clause=(LIST)NULL; retrying=TRUE;
 	    }
@@ -338,7 +342,7 @@ unify(s1,t1,s2,t2,reset,u_stack)
 	    for(;;) {
 	        if (++u_stack >= u_stack_start) {
 		    /*
-		     *	no parent, so unification complete 
+		     *	no parent, so unification complete
 		     */
 		    *r_stack = (BIND)NULL;
 		    *reset=r_stack+2l;

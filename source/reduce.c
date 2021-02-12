@@ -1,5 +1,15 @@
+int i_delete();int r_mark();int R_push();
+int y_pop();
+int y_push();
+int a_dfree();int cl_cq();int cl_groundq();int cl_pop();int cl_swrite();int ct_groundq();int d_error();int interp();int r_bind();int r_cl1();int r_findsubs();
+int ct_vmax();int r_repconst();
+
+
+
 #include <stdio.h>
 #include "progol.h"
+int i_deletes(ITEM f0, ITEM f1, ITEM f2, ITEM f3, ITEM f4, ITEM f5, ITEM f6, ITEM f7, ITEM f8, ITEM f9);
+int g_message(long, char*, void*, void*, void*, void*, void*, void*, void*, void*, void*, void*);
 
 /*
  * #######################################################################
@@ -61,7 +71,7 @@ cl_unflatten(clause)
 	LIST_DO(atom,clause1)
 	  l_suf(i_dec(p_copy(atom,sub,FALSE)),clause2); /* Apply sub */
 	LIST_END
-	i_deletes(*clause,clause1,(ITEM)I_TERM); 
+	i_deletes(*clause,clause1,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	*clause=clause2;
 }
 
@@ -102,22 +112,22 @@ cl_symreduce(clause,atoio,head1)
 	  else l_suf(atom,clause1);
 	LIST_END
 	l_push(i_dec(head),clause1);
-	i_deletes(*clause,htab,(ITEM)I_TERM);
+	i_deletes(*clause,htab,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	*clause=clause1;
 }
 
-/* r_search 
+/* r_search
   A*-like algorithm based on pseudo-compression
   T is background knowledge.
   C = h<-B is most specific i-bounded clause in mode language s.t. T/\C |= e.
   Search space is C' = h<-B' where B' subset of B. Open list is sorted
   in descending order on heuristic function
-  
+
   	g = (c+n)-p		[neg. pseudo-compression]
   	  = (c+negcover(C'))-poscover(C')	[(c+n)-p]
-  
+
   	where cardinality c = |B'|
-  	
+
   Let bestclosed = <g0,p0,c0>
   Let Open = <<g1,p1,c1>,..<gn,pn,cn>>. Search terminates when
   n0=0 and p0>pi for 2<=i<=p. Proof that search returns consistent clause
@@ -125,7 +135,7 @@ cl_symreduce(clause,atoio,head1)
   p1>pi and p decreases monotonically along any path in the search.
   When there is more than one clause with this coverage, the one with
   maximum compression will be returned.
-  
+
   Search pruned for
   	a) Children of node i with ni=0
   	b) Children of node with pi<ci  [there can be no eventual compression]
@@ -140,16 +150,16 @@ cl_symreduce(clause,atoio,head1)
   	When no outputs in the head then distance is zero for
   	all atoms in bottom. Atoms not on path to output
   	variables are given a large non-negative distance value.
-  
+
   Actual state record used is the following integer array
-  
+
 	f - g+h = ((c+n)-p)+h
   	p - positive coverage (n calcuated as f+p-(c+h))
   	c - the clause length
 	h - min. no atoms to output
   	a/u - encoded binding of chosen atom
   	par - parent state
-  
+
  */
 
 double
@@ -214,7 +224,7 @@ r_search(clause,atoio,otoa,outlook,vdomains,fnex)
 	if(!b_emptyq(vouts)) {
 	  maxh=r_maxminh(vouts,vins,atoio,otoa,vdomains,mins=Y_EMPTY,
 		vvis=B_EMPTY,vknown=B_EMPTY);
-	  i_deletes(vvis,vknown,mins,(ITEM)I_TERM);
+	  i_deletes(vvis,vknown,mins,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	}
 	amap=cl_amap(*clause);
 	/* Initialise open list and best */
@@ -239,7 +249,7 @@ r_search(clause,atoio,otoa,outlook,vdomains,fnex)
 	  }
 	} while(!L_EMPTYQ(open)&& !r_atgoal(best,open,bestchanged));
 	i_delete(*clause);
-	g_message(2l,"%d explored search nodes",explored);
+	g_message(2l,"%d explored search nodes",explored, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	if(verbose>=2l) printf("f=%.0f,p=%.0f,n=%.0f,h=%.0f\n",
 			F_VAL(best),P_VAL(best),N_VAL(best),
 			H_VAL(best));
@@ -247,13 +257,13 @@ r_search(clause,atoio,otoa,outlook,vdomains,fnex)
 	else *clause=r_clauseof(best,head,atoio,amap,
 		&aindex,(ITEM)NULL,&vmax,(ITEM)NULL,(ITEM)NULL);
 	if(negq&& *clause) l_push(fhead,*clause);
-	i_deletes(head,amap,open,best,closed,equiv,(ITEM)I_TERM);
-	i_deletes(batoms,vouts,vins,constatoms,(ITEM)I_TERM);
+	i_deletes(head,amap,open,best,closed,equiv,(ITEM)I_TERM, NULL, NULL, NULL);
+	i_deletes(batoms,vouts,vins,constatoms,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL);
 }
 
 /*
   Actual state record used is the following integer array
-  
+
 	f - g+h = ((c+n)-p)+h
   	p - positive coverage (n calcuated as f+p-(c+h))
   	a - attractors (used for learning from positives only)
@@ -321,7 +331,7 @@ r_expand(s,head,atoio,otoa,amap,vdomains,vins,vouts,vmax,explored,
 	c=r_clauseof(s,head,atoio,amap,&aindex,&vmap,&vmax,bdvout);
 	if(negq) l_push(fhead,c);
 	if(!headq && aindex>=Y_SIZE(amap)) { /* No more extension */
-	  i_deletes(c,vmap,bdvout,(ITEM)I_TERM);
+	  i_deletes(c,vmap,bdvout,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	  return(children);
 	}
 	atom=i_copy(headq?head:F_ELEM(0l,F_ELEM(Y_ELEM(aindex,amap),atoio)));
@@ -335,7 +345,7 @@ r_expand(s,head,atoio,otoa,amap,vdomains,vins,vouts,vmax,explored,
 	  vmax1=vmax; vmap1=i_copy(vmap); i_delete(bdvin); i_delete(bdvout1);
 	  r_bind(m,atom,vmap1,&vmax1,nin1=i_copy(nin),nout1=i_copy(nout),headq,
 		bdvin=B_EMPTY,bdvout1=B_EMPTY);
-	  i_deletes(sname,vmap1,nin1,nout1,(ITEM)I_TERM);
+	  i_deletes(sname,vmap1,nin1,nout1,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL);
 	  sname=(ITEM)NULL;
 	  if(!headq) /* Check I/0 connectness */
 	    if(!b_subseteq(bdvin,bdvout)) continue;
@@ -370,7 +380,7 @@ r_expand(s,head,atoio,otoa,amap,vdomains,vins,vouts,vmax,explored,
 	    if(d_groundcall(prune)) {
 		hyp1=(ITEM)NULL;
 		cl_pop(end);
-		i_deletes(c1,call,(ITEM)I_TERM);
+		i_deletes(c1,call,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 		continue;
 	    }
 	    cq=cl_cq(negq,hyp1);     /* Integrity constraints */
@@ -388,10 +398,10 @@ r_expand(s,head,atoio,otoa,amap,vdomains,vins,vouts,vmax,explored,
 	    }
 	    else {
 	      if(SETQ(memoing)) *entry=r_mkstate(p,RINF,clen,HV,m,s,fnex);
-	      cl_pop(end); i_deletes(c1,call,(ITEM)I_TERM);
+	      cl_pop(end); i_deletes(c1,call,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	      continue;
 	    }
-	    cl_pop(end); i_deletes(c1,call,(ITEM)I_TERM);
+	    cl_pop(end); i_deletes(c1,call,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	    if(constraintq) s1=r_mkstate(p,n,clen,HV,lno-1l,s,fnex);
 	    else s1=r_mkstate(p,n,clen,HV,m,s,fnex);
 	    if(SETQ(memoing)) *entry=i_inc(s1);
@@ -417,7 +427,7 @@ r_expand(s,head,atoio,otoa,amap,vdomains,vins,vouts,vmax,explored,
 	  l_suf(i_dec(s1=i_copy(s)),children);
 	  A_CODE(s1)=SKIPA; R_PARENT(s1)=(LONG)s;
 	}
-	i_deletes(sname,c,vmap,nin,nout,bdvin,bdvout,bdvout1,(ITEM)I_TERM);
+	i_deletes(sname,c,vmap,nin,nout,bdvin,bdvout,bdvout1,(ITEM)I_TERM, NULL);
 	return(i_sort(children));
 }
 
@@ -508,7 +518,7 @@ r_bind(p,atom,vmap,vmax,nin,nout,headq,bdvin,bdvout)
 	    else if(bdvout&&OUT1(term->extra)) b_add(vno,bdvout);
 	  }
 	TERM_END
-	i_deletes(vsofar,pin,pout,(ITEM)I_TERM);
+	i_deletes(vsofar,pin,pout,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 /* r_clauseof - constructs clause related to a given search state
@@ -539,7 +549,7 @@ r_clauseof(s,head,atoio,amap,aindex,vmap,vmax,bdvout)
 #define DOBIND(h) {ITEM nin,nout; r_precombo(atom,vmap,&nin,&nout,h); \
 		    r_bind(acode,atom,vmap,vmax,nin,nout,h,NULL,bdvout); \
 		    l_suf(i_dec(atom),clause); \
-		    i_deletes(nin,nout,(ITEM)I_TERM);}
+		    i_deletes(nin,nout,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);}
 
 r_cl1(s,head,clause,atoio,amap,aindex,vmap,vmax,bdvout)
 	ITEM s,head,clause,atoio,amap,vmap,bdvout;
@@ -547,7 +557,7 @@ r_cl1(s,head,clause,atoio,amap,aindex,vmap,vmax,bdvout)
 	{
 	ITEM atom,atom1;
 	LONG ano,rp,acode;
-	if(!(rp=R_IPARENT(s))) return;
+	if(!(rp=R_IPARENT(s))) return 0;
 	r_cl1((ITEM)rp,head,clause,atoio,amap,aindex,vmap,vmax,bdvout);
 	acode=A_CODE(s);
 	if(R_PARENT((ITEM)rp)==0.0) {	/* Clause head */
@@ -670,7 +680,7 @@ r_outlook(clause,head1,otoa,atoio)
 	    BIT_END
 	    b_sub(vnew,vseen); b_uni(vseen,vnew);
 	    i_swap(vout,vnew);
-	    i_deletes(anew,vnew,(ITEM)I_TERM);
+	    i_deletes(anew,vnew,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	    depth++;
 	  }
 	  b_sub(atoms,aseen);
@@ -680,7 +690,7 @@ r_outlook(clause,head1,otoa,atoio)
 	  BIT_END
 	}
 	l_push(i_dec(head),clause);
-	i_deletes(vout,atoms,aseen,vseen,(ITEM)I_TERM);
+	i_deletes(vout,atoms,aseen,vseen,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL);
 	return(outlook);
 }
 
@@ -688,7 +698,7 @@ r_showchoice(s)
 	ITEM s;
 	{
 	ITEM p=(ITEM)R_IPARENT(s);
-	if(!p) return;
+	if(!p) return 0;
 	r_showchoice(p);
 	if(A_CODE(s)==SKIPA) printf("0");
 	else printf("1");
@@ -745,7 +755,7 @@ r_vdomains(otoa,atoio)
 	      BIT_END
 	      b_sub(newa,alla); b_uni(alla,newa);
 	    }
-	    i_deletes(newv,newa,alla,(ITEM)I_TERM);
+	    i_deletes(newv,newa,alla,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	  }
 	  vno++;
 	FUNC_END
@@ -777,7 +787,7 @@ r_minh(vins,vouts,clause,atoio,otoa,vdomains)
 	}
 	result=r_maxminh(vouts,vins1,atoio,otoa,vdomains,mins=Y_EMPTY,
 		vvis=B_EMPTY,vknown=B_EMPTY);
-	i_deletes(mins,vins1,vvis,vknown,(ITEM)I_TERM);
+	i_deletes(mins,vins1,vvis,vknown,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL);
 	return(result);
 }
 
@@ -818,7 +828,7 @@ r_maxminh(vouts,vins,atoio,otoa,vdomains,mins,vvis,vknown)
 	BIT_END
 	max+=n-1;		/* At least 1 literal per subproof */
 	MAX(max,sum);		/* Max of 2 underestimates */
-	i_deletes(doms,vouts1,(ITEM)I_TERM);
+	i_deletes(doms,vouts1,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	return(max);
 }
 
@@ -864,7 +874,7 @@ r_makeconstraint(atom,clause,vmax)
 	TERM_END
 	inlists=r_constraintinlists(clause,ins);
 	result=r_constraintconstants(atom,vmax,ins,inlists);
-	i_deletes(ins,inlists,(ITEM)I_TERM);
+	i_deletes(ins,inlists,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	return(result);
 }
 
@@ -923,7 +933,7 @@ r_constraintinlists(clause,ins)
 	  *f_ins(vno,inlists)=l_push(pinlist,l_push(ninlist,L_EMPTY));
 	BIT_END
 	*atom=(ITEM)NULL;
-	i_deletes(c,call,pinlists,ninlists,(ITEM)I_TERM);
+	i_deletes(c,call,pinlists,ninlists,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL);
 	return(inlists);
 }
 
@@ -999,7 +1009,7 @@ r_constraintconstants(atom,vmax,ins,inlists)
 	  sub1=sub+vno;
 	  sub1->subst=(BIND)NULL;
 	  if(b_memq(vno,ins)) {
-	    if(!(*(entry=f_ins(vno,inlists))))	
+	    if(!(*(entry=f_ins(vno,inlists))))
 	  	d_error("r_constraintconstants - NULL list");
 	    lplist=L_EMPTY;
 	    LIST_DO(slist,*entry)
@@ -1011,7 +1021,7 @@ r_constraintconstants(atom,vmax,ins,inlists)
 	      i_delete(lplist1);
 	    LIST_END
 	    plist=l_ltop(lplist);
-	    i_deletes(*entry,lplist,(ITEM)I_TERM);
+	    i_deletes(*entry,lplist,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	    sub1->term=(*entry=plist);
 	  }
 	  else sub1->term=(ITEM)NULL;

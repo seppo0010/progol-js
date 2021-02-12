@@ -8,6 +8,11 @@
 #include        <stdio.h>
 #include        "progol.h"
 
+int ccl_fwrite();int ccl_swrite();int b_num();int cl_pfirstarg();int i_delete();int p_fwrite();int cl_mgenerate();int interp_quest();int ccl_swrite();
+int i_deletes(ITEM f0, ITEM f1, ITEM f2, ITEM f3, ITEM f4, ITEM f5, ITEM f6, ITEM f7, ITEM f8, ITEM f9);
+int g_message(long, char*, void*, void*, void*, void*, void*, void*, void*, void*, void*, void*);
+int i_fnl();int freclose();
+
 /* cl_assert - asserts a clause for Prolog interpretation. `sort'
  *	argument determines whether to use i_sort on the new definition.
  *	When `sort' is false clauses should be added in reverse order.
@@ -44,7 +49,7 @@ cl_assert(cclause,sort,last,update,libq,pseen)
 	      *y_ins(cno1,costs)=0l;
 	    BIT_END
 	    b_sub(bclauses,*bentry);
-	    i_deletes(*entry,*bentry,(ITEM)I_TERM);
+	    i_deletes(*entry,*bentry,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	    *entry=L_EMPTY; *bentry=B_EMPTY;
 	  }
 	  if(pseen) b_add(psym,pseen);
@@ -88,7 +93,7 @@ cl_mdeclare(det,mode,modes)
 	  else return(FALSE);
 	}
 	if(reconsult && !mseen) {
-	  i_deletes(hmodes,bmodes,(ITEM)I_TERM);
+	  i_deletes(hmodes,bmodes,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  hmodes=F_EMPTY; bmodes=F_EMPTY;
 	  modes=(head?hmodes:bmodes); mseen=TRUE;
 	}
@@ -111,7 +116,7 @@ cl_mdeclare(det,mode,modes)
 	l_push(moderec,*entry);
 	i_sort(*entry);
 	if(modes==hmodes) cl_mgenerate(call,iolist);
-	i_deletes(atom,clause,call,moderec,iolist,(ITEM)I_TERM);
+	i_deletes(atom,clause,call,moderec,iolist,(ITEM)I_TERM, NULL, NULL, NULL, NULL);
 	return(result);
 }
 
@@ -155,7 +160,7 @@ cl_mdeclare1(mode,iolist,vno,depth)
 	      else {ON(OUT,result->extra); sym1=(pno==pminus?pminus1:phash1);}
 	      if(pno==phash) ON(CONST,result->extra);
 	      else OFF(CONST,result->extra);
-	      l_suf(i_dec(i_tup2(i_dec(i_create('h',(POINTER)sym1)),	
+	      l_suf(i_dec(i_tup2(i_dec(i_create('h',(POINTER)sym1)),
 		i_dec(i_create('h',(POINTER)QP_ston("any",0l))))),iolist);
 	      b_add(QP_ston("any",1l),types);
 	    }
@@ -243,7 +248,7 @@ cl_pfirstarg(psym)
 	{
 	register ITEM def,ccl,*entry,*entry1,*entry2,head,first,pfseen;
 	register ULONG *pf,pf1;
-	if(!(def= *f_ins(psym,ptab))) return;
+	if(!(def= *f_ins(psym,ptab))) return 0;
 	if(*(entry=f_ins(psym,ptopf)))	/* Delete the old indexed clauses */
 	  Y_DO(pf,*entry)
 	    i_delete(*(entry1=f_ins((LONG)*pf,pftab)));
@@ -301,7 +306,7 @@ cl_readrls(fname)
 		ccl_swrite(mess,i);
 		sprintf(mess1,"%s - Time taken %.2lfs",mess,
 			fabs(cputime()-start));
-		g_message(1l,mess1);
+		g_message(1l,mess1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 		l_push(i,comms);
 	    }
 	    else cl_assert(i,FALSE,TRUE,FALSE,FALSE,pseen);

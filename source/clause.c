@@ -8,6 +8,11 @@
 #include        <stdio.h>
 #include        "progol.h"
 
+int i_delete();int d_error();int p_write();int frecflush();int i_fnl();
+int i_deletes(ITEM f0, ITEM f1, ITEM f2, ITEM f3, ITEM f4, ITEM f5, ITEM f6, ITEM f7, ITEM f8, ITEM f9);
+int y_push(); int y_pop();
+
+
 /*
  * cl_read - reads in a clause from a file. If file ended then
  *	returns item end_of_file.
@@ -198,7 +203,7 @@ cl_vextract(vtable,vno)
 	BIT_DO(vno1,vnseen)
 	  *f_ins(vno1,vtable1)=i_inc(null);
 	BIT_END
-	i_deletes(null,vnseen,(ITEM)I_TERM);
+	i_deletes(null,vnseen,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	return(vtable1);
 }
 
@@ -403,7 +408,7 @@ ccl_read(get1ch,unget1ch)
 	else if(type==pquest) {
 	  if(l_length(clause)!=1l) {
 	    if(HOF((LIST)I_GET(clause))) { /* Clause as question not allowed */
-	      i_deletes(vtable,clause,(ITEM)I_TERM);
+	      i_deletes(vtable,clause,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	      return((ITEM)I_ERROR);
 	    }
 	    l_pop(clause);

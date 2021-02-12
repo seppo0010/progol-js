@@ -44,9 +44,9 @@ struct break_env {
 	LONG nres;
 };
 
-#define	FUNC_ARG(it,arg) ((((FUNC)I_GET(it))->arr)[arg])	
-#define	FUNC_ZERO(it)	 ((((FUNC)I_GET(it))->arr)[0])	
-#define	FUNC_SIZE(it)	 (((FUNC)I_GET(it))->arr_size)	
+#define	FUNC_ARG(it,arg) ((((FUNC)I_GET(it))->arr)[arg])
+#define	FUNC_ZERO(it)	 ((((FUNC)I_GET(it))->arr)[0])
+#define	FUNC_SIZE(it)	 (((FUNC)I_GET(it))->arr_size)
 
 #define	BOUND(b)	((b).subst + (LONG)I_GET((b).term))
 #define HEAD(cl)	HOF((LIST)I_GET(FUNC_ZERO(cl)))
@@ -65,8 +65,8 @@ struct break_env {
 	(((pf=pf_ins(p,PSYM(f),FALSE))==XYTERM)|| !(*(d=f_ins(pf,pftab))))) \
 	d=f_ins(p,pvtab);}}
 
-#define CONTRA {g_message(2l,"Testing for contradictions"); \
+#define CONTRA {g_message(2l,"Testing for contradictions", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL); \
 		if(d_groundcall(fhead)) \
-		g_message(2l,"WARNING: contradiction - false is provable"); \
-		else g_message(2l,"No contradictions found");}
+		g_message(2l,"WARNING: contradiction - false is provable", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL); \
+		else g_message(2l,"No contradictions found", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);}
 

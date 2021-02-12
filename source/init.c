@@ -8,6 +8,17 @@
 #include <stdio.h>
 #include "progol.h"
 
+int a_zero_table();
+int c_reset();
+int c_initops();                    /* Initialise operator precedences */
+int n_init();
+int frecdelete();
+int i_deletes(ITEM f0, ITEM f1, ITEM f2, ITEM f3, ITEM f4, ITEM f5, ITEM f6, ITEM f7, ITEM f8, ITEM f9);
+int xy_adelete();
+int strlen();
+int d_error();
+
+
 LONG memout;
 FILEREC *ttyin;
 FILEREC *ttyout;
@@ -58,7 +69,7 @@ c_open()
 		d_error("c_open - calloc failure 2");
 	else
 		f->arr_size= HASH10+1l;
-	FUNC_LOOP(fptr,f) *fptr=(ITEM)NULL; 
+	FUNC_LOOP(fptr,f) *fptr=(ITEM)NULL;
 	all_items->obj=(POINTER)f;
 	}
 #endif
@@ -189,14 +200,14 @@ c_close()
 	frecdelete(ttyin); frecdelete(ttyout);
 	if(plgin!=ttyin) frecdelete(plgin);
 	if(plgout!=ttyout) frecdelete(plgout);
-	i_deletes(fileroot_in,fileroot_out,spsyms,store,pftab,(ITEM)I_TERM);
-	i_deletes(spatoms,spcls,sple,lib,lib1,osplit,eof,psamps,(ITEM)I_TERM);
-	i_deletes(bfores,hmodes,bmodes,determs,hypothesis,(ITEM)I_TERM);
-	i_deletes(ops,psymtlib,ptab,bptab,fhead,gcall,ptog,(ITEM)I_TERM);
-	i_deletes(comms,op,types,bclauses,idot0,indexed,costs,(ITEM)I_TERM);
-	i_deletes(allpsyms,nums,spies,bpsamps,fsymtlib,pvtab,(ITEM)I_TERM);
-	i_deletes(commutes,repeats,labels,prune,constraint,ptopf,(ITEM)I_TERM);
-	i_deletes(oldops,oldop,sstack,(ITEM)I_TERM);
+	i_deletes(fileroot_in,fileroot_out,spsyms,store,pftab,(ITEM)I_TERM, NULL, NULL, NULL, NULL);
+	i_deletes(spatoms,spcls,sple,lib,lib1,osplit,eof,psamps,(ITEM)I_TERM, NULL);
+	i_deletes(bfores,hmodes,bmodes,determs,hypothesis,(ITEM)I_TERM, NULL, NULL, NULL, NULL);
+	i_deletes(ops,psymtlib,ptab,bptab,fhead,gcall,ptog,(ITEM)I_TERM, NULL, NULL);
+	i_deletes(comms,op,types,bclauses,idot0,indexed,costs,(ITEM)I_TERM, NULL, NULL);
+	i_deletes(allpsyms,nums,spies,bpsamps,fsymtlib,pvtab,(ITEM)I_TERM, NULL, NULL, NULL);
+	i_deletes(commutes,repeats,labels,prune,constraint,ptopf,(ITEM)I_TERM, NULL, NULL, NULL);
+	i_deletes(oldops,oldop,sstack,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL);
 	for(iptr=hxy+HASH10+1l;--iptr>=hxy;) if(*iptr) xy_adelete(*iptr);
 	spsyms=(ITEM)NULL;
 #ifdef MEMCHECK

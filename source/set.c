@@ -9,6 +9,12 @@
 #include        <stdio.h>
 #include        "progol.h"
 
+int d_error();
+int partition();
+int i_delete();
+int a_dfree();
+int split();
+
 LIST m_sort(),merge();
 
 /* #######################################################################
@@ -36,7 +42,7 @@ i_sortc(list,cmp)
 
 LIST
 q_sort(in_list)
-        register LIST in_list; 
+        register LIST in_list;
         {
 	register LIST elem,head=in_list,tail,list3,list4;
 	LIST list1,list2;
@@ -46,7 +52,7 @@ q_sort(in_list)
         partition(head,tail,&list1,&list2);
         list3=q_sort(list1);
         list4=q_sort(list2);
-        
+
         /* Stick together as list3|head|list4 */
 
 	if (list3) {
@@ -66,7 +72,7 @@ partition(comp,in_list,out1,out2)
                                         /*      out1 & out2             */
         register LIST comp,in_list;
         register LIST *out1;
-	register LIST *out2; 
+	register LIST *out2;
         {
         register LIST elem=in_list,rest;
 
@@ -97,7 +103,7 @@ partition(comp,in_list,out1,out2)
 
 LIST
 m_sort(in_list,cmp)
-        register LIST in_list; 
+        register LIST in_list;
 	LONG (*cmp) ();
         {
 	LIST list1,list2,list3,list4;
@@ -106,7 +112,7 @@ m_sort(in_list,cmp)
         split(in_list,&list1,&list2);
         list3=m_sort(list1,cmp);
         list4=m_sort(list2,cmp);
-        
+
         return(merge(list3,list4,cmp));
 }
 
@@ -116,7 +122,7 @@ int
 split(in_list,out1,out2)
                                         /* split in_list into       */
                                         /*      out1 & out2         */
-        register LIST in_list,*out1,*out2; 
+        register LIST in_list,*out1,*out2;
         {
         register LIST elem=in_list,rest;
 	PREDICATE first=TRUE;

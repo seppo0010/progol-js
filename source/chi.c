@@ -1,3 +1,4 @@
+int a_dfree();
 /* ####################################################################### */
 
 /*                      PROGOL chi-square functions			   */
@@ -7,6 +8,7 @@
 
 #include        <stdio.h>
 #include        "progol.h"
+int g_message(long, char*, void*, void*, void*, void*, void*, void*, void*, void*, void*, void*);
 
 static DOUBLE gsum(), gprod();
 
@@ -35,18 +37,18 @@ LONG r, c;
 			rtotals[i]+=table[i][j];
 		sum+= rtotals[i];
 		if (!rtotals[i])
-			nrows--; 
+			nrows--;
 	}
 	for (j=0; j<c;j++) {
 		ctotals[j] = (DOUBLE)0.0;
 		for (i=0;i<r;i++)
 			ctotals[i]+=table[i][j];
 		if (!ctotals[j])
-			ncols--; 
+			ncols--;
 	}
 	df = (nrows*ncols) - nrows - ncols  + 1;
 	x2 = (DOUBLE)0.0;
-	for (i=0;i<r;i++) 
+	for (i=0;i<r;i++)
 		for (j=0;j<c;j++) {
 			expected = (DOUBLE)rtotals[i]*(DOUBLE)ctotals[j]/sum;
 			x2 += pow(((DOUBLE)table[i][j]-expected),(DOUBLE)2.0)/(expected+FUZZY);
@@ -57,11 +59,11 @@ LONG r, c;
 	return (DOUBLE)prob;
 
 }
-	
+
 /* Chi-square probability for a 2xc contingency table */
 DOUBLE
 chisq2(table,c)
-LONG **table; 
+LONG **table;
 LONG c;
 {
 	DOUBLE expected, x2, prob;
@@ -77,7 +79,7 @@ LONG c;
 			rtotals[i]+=table[i][j];
 		sum+= rtotals[i];
 		if (!rtotals[i])
-			nrows--; 
+			nrows--;
 	}
 	ctotals = (LONG *)PROGOL_CALLOC(c,sizeof(LONG));
 	for (j=0; j<c;j++) {
@@ -85,11 +87,11 @@ LONG c;
 		for (i=0;i<2;i++)
 			ctotals[j]+=table[i][j];
 		if (!ctotals[j])
-			ncols--; 
+			ncols--;
 	}
 	df = (nrows*ncols) - nrows - ncols  + 1;
 	x2 = (DOUBLE)0.0;
-	for (i=0;i<2;i++) 
+	for (i=0;i<2;i++)
 		for (j=0;j<c;j++) {
 			expected = (DOUBLE)rtotals[i]*(DOUBLE)ctotals[j]/sum;
 			x2 += pow(((DOUBLE)table[i][j]-expected),(DOUBLE)2.0)/(expected+FUZZY);
@@ -99,7 +101,7 @@ LONG c;
 	return (DOUBLE)prob;
 
 }
-	
+
 /* incomplete gamma function */
 DOUBLE
 gamma_func(a,x)
@@ -144,7 +146,7 @@ DOUBLE a,x;
 		}
 	}
 	if (!converged)
-		g_message(0,"df too large/no convergence in sum for gamma function");
+		g_message(0,"df too large/no convergence in sum for gamma function", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 	return (DOUBLE)(sum*exp(-x+a*log(x) - lgamma(a)));
 }
@@ -180,7 +182,7 @@ DOUBLE a,x;
 		}
 	}
 	if (!converged)
-		g_message(0,"df too large/no convergence in product for gamma function");
+		g_message(0,"df too large/no convergence in product for gamma function", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 	return (DOUBLE)(exp(-x+a*log(x) - lgamma(a))*g);
 }

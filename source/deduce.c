@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include "progol.h"
 
+int a_dfree();
+int b_lsub();int cl_assatoms();int cl_leprop();int cl_pfirstarg();int cl_psfirstarg();int cl_retatoms();int d_error();int i_delete();int interp_quest();
+int g_message(long, char*, void*, void*, void*, void*, void*, void*, void*, void*, void*, void*);
+int i_deletes(ITEM f0, ITEM f1, ITEM f2, ITEM f3, ITEM f4, ITEM f5, ITEM f6, ITEM f7, ITEM f8, ITEM f9);
+int cl_groundq();
+int interp();int y_pop();int y_push();
 /*
  * #######################################################################
  *
@@ -45,7 +51,7 @@ d_pushfores(psym)
 	  BIT_END
 	  cl_psfirstarg(pseen);
 	}
-	i_deletes(pseen,nums,(ITEM)I_TERM);
+	i_deletes(pseen,nums,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	return(retract);
 }
 
@@ -53,7 +59,7 @@ d_popfores(retract)
 	ITEM retract;
 	{
 	cl_retatoms(retract);
-	i_deletes(fores,bfores,(ITEM)I_TERM);
+	i_deletes(fores,bfores,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	bfores=fores=(ITEM)NULL;
 }
 
@@ -100,7 +106,7 @@ d_treduce(psym)
 	LONG cno;
 	ITEM brem=d_tredundant(psym),defs=F_ELEM(psym,ptab);
 	if(!b_emptyq(brem)) {
-	  g_message(1l,"%d redundant clauses retracted",b_size(brem));
+	  g_message(1l,"%d redundant clauses retracted",b_size(brem), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  BIT_DO(cno,brem)	/* Zero costs of deleted examples */
 	    *y_ins(cno,costs)=0l;
 	  BIT_END
@@ -393,11 +399,11 @@ d_creduce(cclause,relative)
 	LIST_END
 	l_push(head0,clause0);
 	cl_retatoms(retract);
-	i_deletes(entry,clause,retract,head0,pseen,bvars,(ITEM)I_TERM);
+	i_deletes(entry,clause,retract,head0,pseen,bvars,(ITEM)I_TERM, NULL, NULL, NULL);
 	return(cclause);
 }
 
-/* cl_vcnt - returns frequencies of variable occurences in clause. 
+/* cl_vcnt - returns frequencies of variable occurences in clause.
  */
 
 ITEM
@@ -474,8 +480,8 @@ d_qreduces(clause)
 	l_push(head0,cl_skolem(clause,FALSE));
 	cl_retatoms(retract);
 	catoms=catoms0; cle=cle0; clt=clt0;
-	i_deletes(vcntcl,entry,clause1,retract,(ITEM)I_TERM);
-	i_deletes(nums,cclause0,head0,pseen,bvars,(ITEM)I_TERM);
+	i_deletes(vcntcl,entry,clause1,retract,(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL);
+	i_deletes(nums,cclause0,head0,pseen,bvars,(ITEM)I_TERM, NULL, NULL, NULL, NULL);
 	return(result);
 }
 
@@ -493,7 +499,7 @@ d_sample(psym,n)
 	PREDICATE warned=FALSE;
 	if(!(*f_ins(psym,ptab))) {
 	  g_message(1l,"Generator predicate %s/%d has no definition",
-		QP_ntos(psym),QP_ntoa(psym));
+		QP_ntos(psym),QP_ntoa(psym), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	  return(result);
 	}
 	if(arity=QP_ntoa(psym)) {
@@ -515,7 +521,7 @@ d_sample(psym,n)
 	  }
 	  else if(!warned) {
 	    g_message(1l,"WARNING: predicate %s/%d failed when sampling",
-		QP_ntos(psym), QP_ntoa(psym));
+		QP_ntos(psym), QP_ntoa(psym), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	    warned=TRUE;
 	  }
 	}
@@ -543,7 +549,7 @@ d_cimplied(ccl)
 	bpcls=F_ELEM(psym,bptab);
 	F_ELEM(psym,bptab)=b_add(cno,B_EMPTY); /* Test clause implied */
 	result= !b_emptyq(bred=d_tredundant(psym));
-	i_deletes(bred,F_ELEM(psym,bptab),(ITEM)I_TERM);
+	i_deletes(bred,F_ELEM(psym,bptab),(ITEM)I_TERM, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	F_ELEM(psym,bptab)=bpcls;
 	i_delete(F_ELEM(cno,F_ELEM(0l,spcls)));
 	F_ELEM(cno,F_ELEM(0l,spcls))=(ITEM)NULL;
