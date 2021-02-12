@@ -1,0 +1,288 @@
+CProgol Version 4.4
+
+|- [Noise has been set to 100%]
+[Example inflation has been set to 400%]
+[The posonly flag has been turned ON]
+[:- set(posonly)? - Time taken 0.00s]
+[:- set(c,2)? - Time taken 0.00s]
+[:- modeh(1,class(+animal,#class))? - Time taken 0.00s]
+[:- modeb(1,has_gills(+animal))? - Time taken 0.00s]
+[:- modeb(1,has_covering(+animal,#covering))? - Time taken 0.00s]
+[:- modeb(1,has_legs(+animal,#nat))? - Time taken 0.00s]
+[:- modeb(1,homeothermic(+animal))? - Time taken 0.00s]
+[:- modeb(1,has_eggs(+animal))? - Time taken 0.00s]
+[:- modeb(1,not(has_gills(+animal)))? - Time taken 0.00s]
+[:- modeb(1,nhas_gills(+animal))? - Time taken 0.00s]
+[:- modeb(100,habitat(+animal,#habitat))? - Time taken 0.00s]
+[:- modeb(1,has_milk(+animal))? - Time taken 0.00s]
+[:- modeh(1,false)? - Time taken 0.00s]
+[:- modeb(1,class(+animal,#class))? - Time taken 0.00s]
+[Testing for contradictions]
+[No contradictions found]
+yes
+[:- [animals]? - Time taken 0.03s]
+|- [Generalising class(eagle,bird).]
+[Most specific clause is]
+
+class(A,bird) :- not(has_gills(A)), has_covering(A,feathers),
+	has_legs(A,2), homeothermic(A), has_eggs(A), nhas_gills(A),
+	habitat(A,land), habitat(A,air).
+
+[Learning class/2 from positive examples]
+[C:-42,16,23,0 class(A,bird).]
+[C:-13,16,17,0 class(A,bird) :- not(has_gills(A)).]
+[C:36,16,6,0 class(A,bird) :- not(has_gills(A)), has_covering(A,feathers).]
+[C:36,16,6,0 class(A,bird) :- not(has_gills(A)), has_legs(A,2).]
+[C:11,16,11,0 class(A,bird) :- not(has_gills(A)), homeothermic(A).]
+[C:11,16,11,0 class(A,bird) :- not(has_gills(A)), has_eggs(A).]
+[C:-18,16,17,0 class(A,bird) :- not(has_gills(A)), nhas_gills(A).]
+[C:-12,12,11,0 class(A,bird) :- not(has_gills(A)), habitat(A,land).]
+[C:30,8,2,0 class(A,bird) :- not(has_gills(A)), habitat(A,air).]
+[C:41,16,6,0 class(A,bird) :- has_covering(A,feathers).]
+[C:36,16,6,0 class(A,bird) :- has_covering(A,feathers), has_legs(A,2).]
+[C:36,16,6,0 class(A,bird) :- has_covering(A,feathers), homeothermic(A).]
+[C:36,16,6,0 class(A,bird) :- has_covering(A,feathers), has_eggs(A).]
+[C:36,16,6,0 class(A,bird) :- has_covering(A,feathers), nhas_gills(A).]
+[C:40,12,3,0 class(A,bird) :- has_covering(A,feathers), habitat(A,land).]
+[C:30,8,2,0 class(A,bird) :- has_covering(A,feathers), habitat(A,air).]
+[C:41,16,6,0 class(A,bird) :- has_legs(A,2).]
+[C:36,16,6,0 class(A,bird) :- has_legs(A,2), homeothermic(A).]
+[C:36,16,6,0 class(A,bird) :- has_legs(A,2), has_eggs(A).]
+[C:36,16,6,0 class(A,bird) :- has_legs(A,2), nhas_gills(A).]
+[C:40,12,3,0 class(A,bird) :- has_legs(A,2), habitat(A,land).]
+[C:30,8,2,0 class(A,bird) :- has_legs(A,2), habitat(A,air).]
+[C:16,16,11,0 class(A,bird) :- homeothermic(A).]
+[C:36,16,6,0 class(A,bird) :- homeothermic(A), has_eggs(A).]
+[C:11,16,11,0 class(A,bird) :- homeothermic(A), nhas_gills(A).]
+[C:21,12,6,0 class(A,bird) :- homeothermic(A), habitat(A,land).]
+[C:30,8,2,0 class(A,bird) :- homeothermic(A), habitat(A,air).]
+[C:-18,16,18,0 class(A,bird) :- has_eggs(A).]
+[C:11,16,11,0 class(A,bird) :- has_eggs(A), nhas_gills(A).]
+[C:8,12,8,0 class(A,bird) :- has_eggs(A), habitat(A,land).]
+[C:30,8,2,0 class(A,bird) :- has_eggs(A), habitat(A,air).]
+[C:-13,16,17,0 class(A,bird) :- nhas_gills(A).]
+[C:-12,12,11,0 class(A,bird) :- nhas_gills(A), habitat(A,land).]
+[C:30,8,2,0 class(A,bird) :- nhas_gills(A), habitat(A,air).]
+[C:-5,12,11,0 class(A,bird) :- habitat(A,land).]
+[C:30,8,2,0 class(A,bird) :- habitat(A,land), habitat(A,air).]
+[C:40,8,2,0 class(A,bird) :- habitat(A,air).]
+[37 explored search nodes]
+f=41,p=16,n=6,h=0
+[Result of search is]
+
+class(A,bird) :- has_covering(A,feathers).
+
+[3 redundant clauses retracted]
+[Generalising class(bat,mammal).]
+[Most specific clause is]
+
+class(A,mammal) :- not(has_gills(A)), has_covering(A,hair), has_legs(A,
+	2), homeothermic(A), nhas_gills(A), habitat(A,air), habitat(A,
+	caves), has_milk(A).
+
+[Learning class/2 from positive examples]
+[C:-14,24,27,0 class(A,mammal).]
+[C:2,24,21,0 class(A,mammal) :- not(has_gills(A)).]
+[C:47,24,7,0 class(A,mammal) :- not(has_gills(A)), has_covering(A,hair).]
+[C:21,16,9,0 class(A,mammal) :- not(has_gills(A)), has_legs(A,2).]
+[C:34,24,11,0 class(A,mammal) :- not(has_gills(A)), homeothermic(A).]
+[C:-2,24,21,0 class(A,mammal) :- not(has_gills(A)), nhas_gills(A).]
+[C:27,12,5,0 class(A,mammal) :- not(has_gills(A)), habitat(A,air).]
+[C:40,12,3,0 class(A,mammal) :- not(has_gills(A)), habitat(A,caves).]
+[C:47,24,7,0 class(A,mammal) :- not(has_gills(A)), has_milk(A).]
+[C:51,24,7,0 class(A,mammal) :- has_covering(A,hair).]
+[C:41,16,5,0 class(A,mammal) :- has_covering(A,hair), has_legs(A,2).]
+[C:47,24,7,0 class(A,mammal) :- has_covering(A,hair), homeothermic(A).]
+[C:47,24,7,0 class(A,mammal) :- has_covering(A,hair), nhas_gills(A).]
+[C:40,12,3,0 class(A,mammal) :- has_covering(A,hair), habitat(A,air).]
+[C:40,12,3,0 class(A,mammal) :- has_covering(A,hair), habitat(A,caves).]
+[C:47,24,7,0 class(A,mammal) :- has_covering(A,hair), has_milk(A).]
+[C:26,16,9,0 class(A,mammal) :- has_legs(A,2).]
+[C:21,16,9,0 class(A,mammal) :- has_legs(A,2), homeothermic(A).]
+[C:21,16,9,0 class(A,mammal) :- has_legs(A,2), nhas_gills(A).]
+[C:27,12,5,0 class(A,mammal) :- has_legs(A,2), habitat(A,air).]
+[C:40,12,3,0 class(A,mammal) :- has_legs(A,2), habitat(A,caves).]
+[C:41,16,5,0 class(A,mammal) :- has_legs(A,2), has_milk(A).]
+[C:38,24,11,0 class(A,mammal) :- homeothermic(A).]
+[C:34,24,11,0 class(A,mammal) :- homeothermic(A), nhas_gills(A).]
+[C:27,12,5,0 class(A,mammal) :- homeothermic(A), habitat(A,air).]
+[C:40,12,3,0 class(A,mammal) :- homeothermic(A), habitat(A,caves).]
+[C:47,24,7,0 class(A,mammal) :- homeothermic(A), has_milk(A).]
+[C:2,24,21,0 class(A,mammal) :- nhas_gills(A).]
+[C:27,12,5,0 class(A,mammal) :- nhas_gills(A), habitat(A,air).]
+[C:40,12,3,0 class(A,mammal) :- nhas_gills(A), habitat(A,caves).]
+[C:47,24,7,0 class(A,mammal) :- nhas_gills(A), has_milk(A).]
+[C:34,12,5,0 class(A,mammal) :- habitat(A,air).]
+[C:40,12,3,0 class(A,mammal) :- habitat(A,air), habitat(A,caves).]
+[C:40,12,3,0 class(A,mammal) :- habitat(A,air), has_milk(A).]
+[C:47,12,3,0 class(A,mammal) :- habitat(A,caves).]
+[C:40,12,3,0 class(A,mammal) :- habitat(A,caves), has_milk(A).]
+[C:51,24,7,0 class(A,mammal) :- has_milk(A).]
+[37 explored search nodes]
+f=51,p=24,n=7,h=0
+[Result of search is]
+
+class(A,mammal) :- has_covering(A,hair).
+
+[3 redundant clauses retracted]
+[Generalising class(shark,fish).]
+[Most specific clause is]
+
+class(A,fish) :- has_gills(A), has_covering(A,none), has_legs(A,
+	0), has_eggs(A), habitat(A,water).
+
+[Learning class/2 from positive examples]
+[C:-3,16,16,0 class(A,fish).]
+[C:55,16,3,0 class(A,fish) :- has_gills(A).]
+[C:50,16,3,0 class(A,fish) :- has_gills(A), has_covering(A,none).]
+[C:50,16,3,0 class(A,fish) :- has_gills(A), has_legs(A,0).]
+[C:50,16,3,0 class(A,fish) :- has_gills(A), has_eggs(A).]
+[C:50,16,3,0 class(A,fish) :- has_gills(A), habitat(A,water).]
+[C:50,16,4,0 class(A,fish) :- has_covering(A,none).]
+[C:45,16,4,0 class(A,fish) :- has_covering(A,none), has_legs(A,0).]
+[C:50,16,3,0 class(A,fish) :- has_covering(A,none), has_eggs(A).]
+[C:45,16,4,0 class(A,fish) :- has_covering(A,none), habitat(A,water).]
+[C:46,16,5,0 class(A,fish) :- has_legs(A,0).]
+[C:45,16,4,0 class(A,fish) :- has_legs(A,0), has_eggs(A).]
+[C:45,16,4,0 class(A,fish) :- has_legs(A,0), habitat(A,water).]
+[C:16,16,11,0 class(A,fish) :- has_eggs(A).]
+[C:26,16,8,0 class(A,fish) :- has_eggs(A), habitat(A,water).]
+[C:26,16,9,0 class(A,fish) :- habitat(A,water).]
+[16 explored search nodes]
+f=55,p=16,n=3,h=0
+[Result of search is]
+
+class(A,fish) :- has_gills(A).
+
+[1 redundant clauses retracted]
+[Generalising class(crocodile,reptile).]
+[Most specific clause is]
+
+class(A,reptile) :- not(has_gills(A)), has_covering(A,scales),
+	has_legs(A,4), has_eggs(A), nhas_gills(A), habitat(A,
+	land), habitat(A,water).
+
+[Learning class/2 from positive examples]
+[C:25,24,16,0 class(A,reptile).]
+[C:41,24,10,0 class(A,reptile) :- not(has_gills(A)).]
+[C:57,24,4,0 class(A,reptile) :- not(has_gills(A)), has_covering(A,scales).]
+[C:60,20,2,0 class(A,reptile) :- not(has_gills(A)), has_legs(A,4).]
+[C:47,24,7,0 class(A,reptile) :- not(has_gills(A)), has_eggs(A).]
+[C:37,24,10,0 class(A,reptile) :- not(has_gills(A)), nhas_gills(A).]
+[C:54,24,5,0 class(A,reptile) :- not(has_gills(A)), habitat(A,land).]
+[C:45,16,4,0 class(A,reptile) :- not(has_gills(A)), habitat(A,water).]
+[C:54,24,6,0 class(A,reptile) :- has_covering(A,scales).]
+[C:64,20,1,0 class(A,reptile) :- has_covering(A,scales), has_legs(A,4).]
+[C:50,24,6,0 class(A,reptile) :- has_covering(A,scales), has_eggs(A).]
+[C:57,24,4,0 class(A,reptile) :- has_covering(A,scales), nhas_gills(A).]
+[C:57,24,4,0 class(A,reptile) :- has_covering(A,scales), habitat(A,land).]
+[C:50,16,3,0 class(A,reptile) :- has_covering(A,scales), habitat(A,water).]
+[C:64,20,2,0 class(A,reptile) :- has_legs(A,4).]
+[C:64,20,1,0 class(A,reptile) :- has_legs(A,4), has_eggs(A).]
+[C:60,20,2,0 class(A,reptile) :- has_legs(A,4), nhas_gills(A).]
+[C:60,20,2,0 class(A,reptile) :- has_legs(A,4), habitat(A,land).]
+[C:60,16,1,0 class(A,reptile) :- has_legs(A,4), habitat(A,water).]
+[C:31,24,13,0 class(A,reptile) :- has_eggs(A).]
+[C:47,24,7,0 class(A,reptile) :- has_eggs(A), nhas_gills(A).]
+[C:57,24,4,0 class(A,reptile) :- has_eggs(A), habitat(A,land).]
+[C:16,16,10,0 class(A,reptile) :- has_eggs(A), habitat(A,water).]
+[C:41,24,10,0 class(A,reptile) :- nhas_gills(A).]
+[C:54,24,5,0 class(A,reptile) :- nhas_gills(A), habitat(A,land).]
+[C:45,16,4,0 class(A,reptile) :- nhas_gills(A), habitat(A,water).]
+[C:57,24,5,0 class(A,reptile) :- habitat(A,land).]
+[C:60,16,1,0 class(A,reptile) :- habitat(A,land), habitat(A,water).]
+[C:21,16,10,0 class(A,reptile) :- habitat(A,water).]
+[29 explored search nodes]
+f=64,p=20,n=2,h=0
+[Result of search is]
+
+class(A,reptile) :- has_legs(A,4).
+
+[2 redundant clauses retracted]
+[Generalising class(snake,reptile).]
+[Most specific clause is]
+
+class(A,reptile) :- not(has_gills(A)), has_covering(A,scales),
+	has_legs(A,0), has_eggs(A), nhas_gills(A), habitat(A,
+	land).
+
+[Learning class/2 from positive examples]
+[C:-24,12,15,0 class(A,reptile).]
+[C:8,12,9,0 class(A,reptile) :- not(has_gills(A)).]
+[C:-58,4,4,0 class(A,reptile) :- not(has_gills(A)), has_covering(A,scales).]
+[C:-58,4,4,0 class(A,reptile) :- not(has_gills(A)), has_legs(A,0).]
+[C:-117,4,7,0 class(A,reptile) :- not(has_gills(A)), has_eggs(A).]
+[C:-156,4,9,0 class(A,reptile) :- not(has_gills(A)), nhas_gills(A).]
+[C:-58,4,4,0 class(A,reptile) :- not(has_gills(A)), habitat(A,land).]
+[C:-77,4,6,0 class(A,reptile) :- has_covering(A,scales).]
+[C:-155,4,10,0 class(A,reptile) :- has_legs(A,0).]
+[C:-214,4,13,0 class(A,reptile) :- has_eggs(A).]
+[C:-136,4,9,0 class(A,reptile) :- nhas_gills(A).]
+[C:-38,4,4,0 class(A,reptile) :- habitat(A,land).]
+[C:-97,4,6,0 class(A,reptile) :- has_covering(A,scales), has_legs(A,0).]
+[C:-97,4,6,0 class(A,reptile) :- has_covering(A,scales), has_eggs(A).]
+[C:-58,4,4,0 class(A,reptile) :- has_covering(A,scales), nhas_gills(A).]
+[C:-58,4,4,0 class(A,reptile) :- has_covering(A,scales), habitat(A,land).]
+[C:-58,4,4,0 class(A,reptile) :- nhas_gills(A), habitat(A,land).]
+[C:-175,4,10,0 class(A,reptile) :- has_legs(A,0), has_eggs(A).]
+[C:-58,4,4,0 class(A,reptile) :- has_legs(A,0), nhas_gills(A).]
+[C:-58,4,4,0 class(A,reptile) :- has_legs(A,0), habitat(A,land).]
+[C:-117,4,7,0 class(A,reptile) :- has_eggs(A), nhas_gills(A).]
+[C:-58,4,4,0 class(A,reptile) :- has_eggs(A), habitat(A,land).]
+[22 explored search nodes]
+f=8,p=12,n=9,h=0
+[Result of search is]
+
+class(A,reptile) :- not(has_gills(A)).
+
+[2 redundant clauses retracted]
+
+class(A,bird) :- has_covering(A,feathers).
+class(A,mammal) :- has_covering(A,hair).
+class(A,fish) :- has_gills(A).
+class(A,reptile) :- not(has_gills(A)).
+
+[Total number of clauses = 4]
+
+yes
+[:- generalise(class/2)? - Time taken 0.28s]
+|- [False negative:]class(dolphin,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(dolphin,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(dolphin,mammal).
+[False negative:]class(dolphin,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(dolphin,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(dolphin,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(dolphin,mammal).
+[False negative:]class(dolphin,mammal).
+[False negative:]class(cat,mammal).
+[False negative:]class(dolphin,mammal).
+
+[PREDICATE class/2]
+
+Contingency table=    ________A________~A
+                    P|      128|        0|       128
+                     |(  128.0)|(    0.0)| 
+                   ~P|       23|        0|        23
+                     |(   23.0)|(    0.0)|
+                      ~~~~~~~~~~~~~~~~~~~
+                            151         0        151
+[Overall accuracy= 84.77% +/- 2.92%]
+[Chi-square = NaN]
+ [Without Yates correction = NaN]
+[Chi-square probability = 0.0000]
+yes
+[:- test(anim_test)? - Time taken 0.03s]
+|- 

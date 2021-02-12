@@ -1,0 +1,13 @@
+Example sets in this directory were generated randomly using
+the stochastic logic program interpreter in CProgol4.2. The
+file generate.pl in this directory contains the Prolog source
+that can be used by Progol to generate random examples. The
+easiest way is to consult a file containing the target theory
+together with mode declarations, together with generate.pl.
+Next use testset/3 to generate a random test-set file,
+containing positives and negatives. Positive only examples
+can then be filtered from this file using the UNIX `grep'
+command.
+
+More information about Stochastic Logic Programs can be
+found by reading ../README.
