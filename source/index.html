@@ -44,7 +44,12 @@
             const input = document.getElementById('input').value
             const iframe = document.createElement('iframe')
             iframe.onload = async () => {
-              document.getElementById('output').value = await iframe.contentWindow.runInput(input)
+              const output = await iframe.contentWindow.runInput(input)
+              const matches = [...output.matchAll(/\[.*\]/g)]
+              if (matches.length < 3) return;
+              const fromIndex = output.lastIndexOf(matches[matches.length - 3][0]) + matches[matches.length - 3][0].length
+              const toIndex = output.lastIndexOf(matches[matches.length - 2][0])
+              document.getElementById('output').value = output.substr(fromIndex, toIndex - fromIndex).trim()
               document.body.removeChild(iframe)
             }
             iframe.src = 'runner.html'
