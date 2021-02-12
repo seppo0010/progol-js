@@ -20,53 +20,38 @@
         noInitialRun: true,
         preRun: [],
         postRun: [],
-        print: (function() {
-          var element = document.getElementById('output');
-          if (element) element.value = ''; // clear browser cache
-          return function(text) {
-            if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-            // These replacements are necessary if you render to raw HTML
-            //text = text.replace(/&/g, "&amp;");
-            //text = text.replace(/</g, "&lt;");
-            //text = text.replace(/>/g, "&gt;");
-            //text = text.replace('\n', '<br>', 'g');
-            if (element) {
-              element.value += text + "\n";
-              element.scrollTop = element.scrollHeight; // focus on bottom
+        onRuntimeInitialized: async () => {
+          const dd = document.getElementById('default_inputs')
+          const examples42 = FS.readdir('examples4.2')
+          for (let i = 0; i < examples42.length; i++) {
+            if (examples42[i][0] === '.') continue;
+            const s = document.createElement('option')
+            s.innerText = s.value = 'examples4.2/' + examples42[i]
+            dd.appendChild(s)
+          }
+          const examples44 = FS.readdir('examples4.4')
+          for (let i = 0; i < examples44.length; i++) {
+            if (examples44[i][0] === '.') continue;
+            const s = document.createElement('option')
+            s.innerText = s.value = 'examples4.4/' + examples44[i]
+            dd.appendChild(s)
+          }
+          dd.onchange = (e) => {
+            document.getElementById('input').value = FS.readFile(e.target.value, {encoding: 'utf8'});
+          }
+          document.getElementById('input').value = FS.readFile('examples4.2/chess.pl', {encoding: 'utf8'});
+          document.getElementById('run').onclick = () => {
+            const input = document.getElementById('input').value
+            const iframe = document.createElement('iframe')
+            iframe.onload = async () => {
+              document.getElementById('output').value = await iframe.contentWindow.runInput(input)
+              document.body.removeChild(iframe)
             }
+            iframe.src = 'runner.html'
+            document.body.appendChild(iframe)
           };
-        })(),
-        printErr: function(text) {
-          if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-          console.error(text);
         },
-        totalDependencies: 0,
       };
-    Module.onRuntimeInitialized = async () => {
-      const dd = document.getElementById('default_inputs')
-      const examples42 = FS.readdir('examples4.2')
-      for (let i = 0; i < examples42.length; i++) {
-        if (examples42[i][0] === '.') continue;
-        const s = document.createElement('option')
-        s.innerText = s.value = 'examples4.2/' + examples42[i]
-        dd.appendChild(s)
-      }
-      const examples44 = FS.readdir('examples4.4')
-      for (let i = 0; i < examples44.length; i++) {
-        if (examples44[i][0] === '.') continue;
-        const s = document.createElement('option')
-        s.innerText = s.value = 'examples4.4/' + examples44[i]
-        dd.appendChild(s)
-      }
-      dd.onchange = (e) => {
-        document.getElementById('input').value = FS.readFile(e.target.value, {encoding: 'utf8'});
-      }
-      document.getElementById('input').value = FS.readFile('examples4.2/chess.pl', {encoding: 'utf8'});
-      document.getElementById('run').onclick = () => {
-        FS.writeFile('input.pl', document.getElementById('input').value)
-        callMain(['input'])
-      };
-    }
     </script>
     <script src="progol.js"></script>
   </body>

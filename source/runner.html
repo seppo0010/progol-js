@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Progol</title>
+    <style>
+    * { display: none; }
+    </style>
+  </head>
+  <body>
+    <select id="default_inputs"></select>
+    <textarea class="emscripten" id="output" rows="8"></textarea>
+    <hr>
+    <script type='text/javascript'>
+      var Module;
+      const ready = new Promise((resolve, reject) => {
+      Module = {
+        noInitialRun: true,
+        preRun: [],
+        postRun: [],
+        print: (function() {
+          var element = document.getElementById('output');
+          if (element) element.value = ''; // clear browser cache
+          return function(text) {
+            if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+            // These replacements are necessary if you render to raw HTML
+            //text = text.replace(/&/g, "&amp;");
+            //text = text.replace(/</g, "&lt;");
+            //text = text.replace(/>/g, "&gt;");
+            //text = text.replace('\n', '<br>', 'g');
+            if (element) {
+              element.value += text + "\n";
+              element.scrollTop = element.scrollHeight; // focus on bottom
+            }
+          };
+        })(),
+        printErr: function(text) {
+          if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+          console.error(text);
+        },
+        totalDependencies: 0,
+        onRuntimeInitialized: async () => {
+          resolve()
+        },
+      };
+      })
+      async function runInput(input) {
+        await ready;
+        FS.writeFile('input.pl', input)
+        callMain(['input'])
+        return document.getElementById('output').value
+      }
+    </script>
+    <script src="progol.js"></script>
+  </body>
+</html>
+
