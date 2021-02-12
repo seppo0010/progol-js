@@ -1,0 +1,1 @@
+Progol is available free of charge for academic research and teaching only. If you intend to use Progol for commercial purposes then you MUST contact [Prof. Stephen Muggleton.](https://www.doc.ic.ac.uk/~shm/index.html)
